@@ -134,7 +134,7 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 	/*
 	 *	find allCategories
 	 *
-	 *	@param int $storagePid	 *
+	 *	@param int $storagePid
 	 *	@return array
 	 */	
 	function findAllCategories($storagePid) {
@@ -184,12 +184,6 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         ->set('latitude', $lat)
         ->set('longitude', $lon)
         ->executeStatement();
-
-
-//		$result = $queryBuilder->execute()->fetchAll();
-
-//krexx($queryBuilder->getSql());
-//krexx($queryBuilder->getParameters());
     	return;		
 	}
 
@@ -215,12 +209,6 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 		)
         ->set('mapgeocode', $mapgeocode)
         ->executeStatement();
-
-
-//		$result = $queryBuilder->execute()->fetchAll();
-
-//krexx($queryBuilder->getSql());
-//krexx($queryBuilder->getParameters());
     	return;		
 	}
 
@@ -297,7 +285,6 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 		$lon =  $latLon->lon;
 
         $categoryList = @implode(',', $categoryList);
-//krexx($categoryList);
 
         $context = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Context\Context::class);
         $sys_language_uid = $context->getPropertyFromAspect('language', 'id'); 
@@ -338,10 +325,6 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         $queryBuilder->having('`distance` <= ' . $queryBuilder->createNamedParameter($radius, \PDO::PARAM_INT));
 
-//		$queryBuilder = $this->addCategoryQueryPart($categoryList, $queryBuilder);
-//		$queryBuilder->setMaxResults(intval($limit))->setFirstResult(intval($page * $limit));
-
-        
 		$result =  $queryBuilder->execute()->fetchAll();
         if ($categoryList)
             $result = $this->filterCategories($result, $categoryList);
@@ -387,7 +370,7 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     }
 
 
-	/*
+	/* not used yet
 	 * 	
 	 * @param string $categories
 	 * @param QueryBuilder $queryBuilder
