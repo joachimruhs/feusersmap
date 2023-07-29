@@ -194,10 +194,10 @@ max 1 call/sec
 //            $requestArguments['radius'] = 500;
 //    		$locations = $this->usersRepository->findLocationsInRadius($latLon, $requestArguments['radius'], $this->_GP['categories'], $this->conf['storagePid']);
 /*
-            return (new ForwardResponse('details'))
+            return (new ForwardResponse('map'))
                 ->withControllerName('Users')
                 ->withExtensionName('feusersmap')
-                ->withArguments(['locationUid' => '2'])
+                ->withArguments(['locationUid' => '2', 'radius' => '500', 'address' => 'frankfurt'])
             ;
 */
         }
