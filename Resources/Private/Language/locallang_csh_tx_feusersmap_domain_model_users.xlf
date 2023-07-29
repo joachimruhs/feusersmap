@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="EXT:feusersmap/Resources/Private/Language/locallang_csh_tx_feusersmap_domain_model_users.xlf" date="2023-07-27T11:36:54Z" product-name="feusersmap">
+		<header/>
+		<body>
+			<trans-unit id="latitude.description" resname="latitude.description">
+				<source>latitude</source>
+			</trans-unit>
+			<trans-unit id="longitude.description" resname="longitude.description">
+				<source>longitude</source>
+			</trans-unit>
+			<trans-unit id="mapicon.description" resname="mapicon.description">
+				<source>mapicon</source>
+			</trans-unit>
+			<trans-unit id="mapgeocode.description" resname="mapgeocode.description">
+				<source>mapgeocode</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

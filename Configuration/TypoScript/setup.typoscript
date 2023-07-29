@@ -1,0 +1,80 @@
+plugin.tx_feusersmap {
+    view {
+        templateRootPaths.0 = EXT:feusersmap/Resources/Private/Templates/
+        templateRootPaths.1 = {$plugin.tx_feusersmap.view.templateRootPath}
+        partialRootPaths.0 = EXT:feusersmap/Resources/Private/Partials/
+        partialRootPaths.1 = {$plugin.tx_feusersmap.view.partialRootPath}
+        layoutRootPaths.0 = EXT:feusersmap/Resources/Private/Layouts/
+        layoutRootPaths.1 = {$plugin.tx_feusersmap.view.layoutRootPath}
+    }
+    persistence {
+        storagePid = {$plugin.tx_feusersmap.persistence.storagePid}
+        #recursive = 1
+    }
+    features {
+        #skipDefaultArguments = 1
+        # if set to 1, the enable fields are ignored in BE context
+        ignoreAllEnableFieldsInBe = 0
+    }
+    mvc {
+        #callDefaultActionIfActionCantBeResolved = 1
+    }
+
+	settings {
+		defaultIcon = {$plugin.tx_feusersmap.settings.defaultIcon}
+		detailsPageId = {$plugin.tx_feusersmap.settings.detailsPageId}
+		enableMarkerClusterer = {$plugin.tx_feusersmap.settings.enableMarkerClusterer}
+		initialMapCoordinates = {$plugin.tx_feusersmap.settings.initialMapCoordinates}
+		markerIconWidth = {$plugin.tx_feusersmap.settings.markerIconWidth}
+		markerIconHeight = {$plugin.tx_feusersmap.settings.markerIconHeight}
+	}
+
+
+
+}
+
+
+
+
+page.includeJS {
+  feusersmap10.forceOnTop = 1
+  feusersmap10.if.isTrue = {$plugin.tx_feusersmap.view.includejQueryCore}
+  feusersmap10 = {$plugin.tx_feusersmap.view.jQueryFile}
+  feusersmap10.insertData = 1
+}
+
+
+
+# these classes are only used in auto-generated templates
+plugin.tx_feusersmap._CSS_DEFAULT_STYLE (
+    textarea.f3-form-error {
+        background-color: #FF9F9F;
+        border: 1px #FF0000 solid;
+    }
+
+    input.f3-form-error {
+        background-color: #FF9F9F;
+        border: 1px #FF0000 solid;
+    }
+
+    .tx-feusersmap table {
+        border-collapse: separate;
+        border-spacing: 10px;
+    }
+
+    .tx-feusersmap table th {
+        font-weight: bold;
+    }
+
+    .tx-feusersmap table td {
+        vertical-align: top;
+    }
+
+    .typo3-messages .message-error {
+        color: red;
+    }
+
+    .typo3-messages .message-ok {
+        color: green;
+    }
+)

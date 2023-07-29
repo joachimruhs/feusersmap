@@ -1,0 +1,44 @@
+plugin.tx_feusersmap {
+    view {
+        # cat=plugin.tx_feusersmap/file; type=string; label=Path to template root (FE)
+        templateRootPath = EXT:feusersmap/Resources/Private/Templates/
+        # cat=plugin.tx_feusersmap/file; type=string; label=Path to template partials (FE)
+        partialRootPath = EXT:feusersmap/Resources/Private/Partials/
+        # cat=plugin.tx_feusersmap/file; type=string; label=Path to template layouts (FE)
+        layoutRootPath = EXT:feusersmap/Resources/Private/Layouts/
+
+		# customsubcategory=javascript=Javascript
+		# cat=plugin.tx_feusersmap/javascript; type=boolean; label=Include jQuery core: Add jQuery core script. Turn it off (0), if jQuery is already added.
+		includejQueryCore = 0
+		# cat=plugin.tx_feusersmap/javascript; type=string; label=jQuery library
+		jQueryFile = EXT:feusersmap/Resources/Public/JavaScript/jquery-3.3.1.min.js
+
+
+    }
+    persistence {
+        # cat=plugin.tx_feusersmap//a; type=string; label=Default storage PID
+        storagePid =
+    }
+
+	settings {
+		# cat=plugin.tx_feusersmap/leafletmaps; type=int; label=Details page ID: Details page ID
+		detailsPageId = 
+
+		# cat=plugin.tx_feusersmap/leafletmaps; type=string; label=Initial map coordinates: Initial map coordinates
+		initialMapCoordinates = 48,8
+
+		# cat=plugin.tx_feusersmap/leafletmaps; type=boolean; label=Marker clusterer: Enables the marker clusterer
+		enableMarkerClusterer = 0
+
+		# cat=plugin.tx_feusersmap/leafletmaps; type=string; label=Default languageUid: Use 0 in multi language sites to override selected language in Frontend and if tt_adress record are not localized. Leave it blank to use TYPO3 localization.
+		defaultLanguageUid = 
+
+		# cat=plugin.tx_feusersmap/leafletmaps; type=int; label=Marker icon width: Width of the marker icon
+		markerIconWidth = 12
+
+		# cat=plugin.tx_feusersmap/leafletmaps; type=int; label=Marker icon height: Height of the marker icon
+		markerIconHeight = 20
+	}
+
+
+}

@@ -1,0 +1,222 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:myutils="http://typo3.org/ns/WSR/Myleaflet/ViewHelpers"
+	  data-namespace-typo3-fluid="true">
+
+<f:layout name="Default" />
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        Users:
+          Map.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="content">
+    <h1>Template for map action</h1>
+
+    <div data-name="other-5">
+  
+  
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
+   integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+   crossorigin=""/>
+
+<script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
+   integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
+   crossorigin="">
+</script>
+
+<link rel="stylesheet" href="typo3conf/ext/myleaflet/Resources/Public/CSS/MarkerCluster.css" />
+<link rel="stylesheet" href="typo3conf/ext/myleaflet/Resources/Public/CSS/MarkerCluster.Default.css" />
+<script src="typo3conf/ext/myleaflet/Resources/Public/JavaScript/markercluster.js"></script>
+<script src="typo3conf/ext/myleaflet/Resources/Public/JavaScript/leaflet-providers.js"></script>
+
+	<div class="ajaxSearch">
+	
+	<f:comment>
+	<f:debug>{_all}</f:debug>
+	</f:comment>
+	
+	<div id="Lvar" class="hidden">{L}</div>
+	
+
+	<h1>Feusersmap</h1>
+
+
+
+	
+	<div id="flashMessages">
+		<f:flashMessages />
+	</div>
+	
+
+	<div id="mapContainer" style="width: 100%;">
+		<div id="map">MAP</div>
+	</div>	
+
+    <form method="post" action='<f:uri.action action="map" pluginName="map" />' name="searchform">
+
+	<f:for each="{categories}" as="category" iteration="iter">
+		<input name="tx_feusersmap_map[categories][]" type="checkbox" value="{category.uid}"/>{category.title}
+	</f:for>
+
+
+	<input id="tx_feusersmap_city" name="tx_feusersmap_map[address]" type="text" value="" size="30" />
+    <select id="tx_feusersmap_country" name="tx_feusersmap_map[country]">
+		<option value="DE" selected="selected">Deutschland</option>
+		<option value="DE">DE</option>
+		<option value="AT">AT</option>
+		<option value="US">US</option>	
+		<option value="CH">CH</option>
+		<option value="FR">FR</option>
+		<option value="NL">NL</option>
+		<option value="GB">UK</option>
+		<option value="AU">AU</option>
+		<option value="CA">CA</option>
+		<option value="IT">IT</option>
+	</select>
+
+	<!--
+	<input id="tx_myleaflet_radiusx" type="text" value="50" class="hidden1"/>
+	-->
+	<select id="tx_feusersmap_radius" name="tx_feusersmap_map[radius]">
+		<option value="10">10 km</option>
+		<option value="20">20 km</option>
+		<option value="40">40 km</option>
+		<option value="60">60 km</option>
+		<option value="100">100 km</option>
+		<option value="500" selected="selected">500 km</option>
+	</select>
+
+
+    <button type="submit">Suchen</button>
+    
+    </form>
+
+
+	<div class="clearer"></div>
+
+
+<script>
+
+	function scrollto(element){
+		 $('html, body').animate({ scrollTop: ($(element).offset().top)}, 'slow');
+	};
+
+
+	var map = '';
+	var marker = [];
+	var group = '';
+	var markerArray = [];
+
+	$(document).ready(function () {
+
+
+// openstreetmap providers
+// http://leaflet-extras.github.io/leaflet-providers/preview/
+
+		var osmMap = L.tileLayer.provider('OpenStreetMap.DE');
+		var mapnik = L.tileLayer.provider('OpenStreetMap.Mapnik');
+//		var esri = L.tileLayer.provider('Esri.WorldImagery');
+		var mtbMap = L.tileLayer.provider('MtbMap');
+		var osmHot = L.tileLayer.provider('OpenStreetMap.HOT');
+		var osmFrance = L.tileLayer.provider('OpenStreetMap.France');
+		
+		
+		map = L.map('map', {
+			center: [<f:format.raw>{settings.initialMapCoordinates}</f:format.raw>],
+			zoom: 14,
+			layers: [osmMap] // only 1 layer here
+    });
+		
+		var baseMaps = {
+//			"OSM Hot": osmHot,
+			"OSM DE": osmMap,
+			"OSM FR": osmFrance,
+			"OSM Mapnik": mapnik,
+//			"Imagery": esri,
+			"MTB": mtbMap,
+		};
+		L.control.layers(baseMaps).addTo(map);
+
+		L.control.scale({
+			'imperial': false
+		}).addTo(map);
+
+		
+		// show all locations when page is loaded
+		// if this is activated then a radial search is done
+		// otherwise the locations of the country are shown
+		$('#tx_myleaflet_city').val('Köln');
+
+		$('#tx_myleaflet_country').val('DE');
+		// if you want manually set the search radius comment the following line and
+		// set the text field tx_myleaflet_radius to another class, not hidden!
+//		$('#tx_myleaflet_radius').val('500');
+	
+		$('#tx_myleaflet_page').val('-1'); //  shows all locations in the map without result list
+//		$('#tx_myleaflet_page').val('0'); //  shows all locations in the map with result list
+
+
+		$('#tx_myleaflet_radius').val('500');
+		$('#tx_myleaflet_city').val('Köln');
+	
+		// do the ajax-call on click
+		$("#ajaxSearchButton").click(function (evt) {
+			$('#tx_myleaflet_page').val(0);
+			evt.preventDefault();
+		});
+
+  
+	});
+
+
+</script>
+
+
+
+
+<script>
+	$(document).ready(function(){
+		$('#flashMessages').fadeIn(2000);
+
+        <f:format.raw>{markerJS}</f:format.raw>
+	});
+
+<!-- responsive map -->
+
+	function resizeMap() {
+	    var mapContainerWidth = $('#mapContainer').width();
+	    var mapContainerHeight = $('#mapContainer').height();
+	    $('#map').width(mapContainerWidth - 10);
+	    $('#map').height(mapContainerWidth/4*3);
+
+		if (map) map.invalidateSize();      
+		if (group.getBounds) {
+			map.fitBounds(group.getBounds());
+		} else {
+			if (map) map.setZoom(4);          
+        }
+	}
+
+	$(window).resize(resizeMap);
+	resizeMap();
+</script>
+
+</div>
+
+    <f:comment><div class="ajaxSearch"></div></f:comment>
+
+  </div> <!-- data-name="other-4" -->
+
+
+
+
+
+
+</f:section>
+</html>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="EXT:feusersmap/Resources/Private/Language/locallang_db.xlf" date="2023-07-27T11:36:54Z" product-name="feusersmap">
+		<header/>
+		<body>
+			<trans-unit id="tx_feusersmap_domain_model_users" resname="tx_feusersmap_domain_model_users">
+				<source>Users</source>
+			</trans-unit>
+			<trans-unit id="tx_feusersmap_domain_model_users.latitude" resname="tx_feusersmap_domain_model_users.latitude">
+				<source>Latitude</source>
+			</trans-unit>
+			<trans-unit id="tx_feusersmap_domain_model_users.longitude" resname="tx_feusersmap_domain_model_users.longitude">
+				<source>Longitude</source>
+			</trans-unit>
+			<trans-unit id="tx_feusersmap_domain_model_users.mapicon" resname="tx_feusersmap_domain_model_users.mapicon">
+				<source>Mapicon</source>
+			</trans-unit>
+			<trans-unit id="tx_feusersmap_domain_model_users.mapgeocode" resname="tx_feusersmap_domain_model_users.mapgeocode">
+				<source>Mapgeocode</source>
+			</trans-unit>
+			<trans-unit id="tx_feusersmap_map.name" resname="tx_feusersmap_map.name">
+				<source>Map</source>
+			</trans-unit>
+			<trans-unit id="tx_feusersmap_map.description" resname="tx_feusersmap_map.description">
+				<source></source>
+			</trans-unit>
+			<trans-unit id="tx_feusersmap_details.name" resname="tx_feusersmap_details.name">
+				<source>Details</source>
+			</trans-unit>
+			<trans-unit id="tx_feusersmap_details.description" resname="tx_feusersmap_details.description">
+				<source></source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

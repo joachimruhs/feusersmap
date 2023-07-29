@@ -1,0 +1,41 @@
+{
+    "name": "wsr/feusersmap",
+    "type": "typo3-cms-extension",
+    "description": "OpenstreetMap for fe_users",
+    "authors": [],
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "typo3/cms-core": "^11.5"
+    },
+    "require-dev": {
+        "typo3/testing-framework": "^6.9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "WSR\\Feusersmap\\": "Classes"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "WSR\\Feusersmap\\Tests\\": "Tests"
+        }
+    },
+    "replace": {
+        "typo3-ter/feusersmap": "self.version"
+    },
+    "config": {
+        "vendor-dir": ".Build/vendor",
+        "bin-dir": ".Build/bin"
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
+        ]
+    },
+    "extra": {
+        "typo3/cms": {
+            "web-dir": ".Build/public",
+            "extension-key": "feusersmap"
+        }
+    }
+}

@@ -1,0 +1,39 @@
+
+
+<f:comment>Template for the infoWindow </f:comment>
+
+
+
+info = '<div class="infoWindow">';
+	info += '<div>LocationListInfoWindow</div>';
+
+	<f:for each="{location.images}" as="image">
+		info += '<img src="/fileadmin/{image.originalResource.originalFile.identifier}"  width="50" alt=""/>';
+	</f:for>
+    info += '<f:link.page pageUid="{settings.detailsPageId}" additionalParams="{tx_feusersmap_details: {action: 'details', locationUid: '{location.uid}'}}" >{location.name}</f:link.page>';
+
+//	info += '<a href="?id={settings.detailsPageId}&tx_feusersmap_map[action]=show&tx_feusersmap_map[locationUid]={location.uid}"><strong>{location.name}</strong></a>';
+    
+	info += "<div class='categories'>{location.categories}</div>";
+
+	info += '<div><f:link.typolink parameter="{location.www}"></f:link.typolink></div>';
+
+	info += "<div><f:format.raw>{location.infoWindowAddress}</f:format.raw></div>";
+
+	info += "<div>{location.address}</div>";
+	info += "<div>{location.zip} {location.city}</div>";
+	info += "<div>{location.phone}</div>";
+
+
+<f:comment>
+
+info += '<div><f:format.stripTags><f:format.htmlentitiesDecode keepQuotes="1">{location.infoWindowDescription}</f:format.htmlentitiesDecode></f:format.stripTags></div>';
+
+info += "<div><f:debug>{location}</f:debug>kkkkk</div>"
+	info += '<div><f:format.raw>{location.infoWindowDescription}</f:format.raw></div>';
+</f:comment>	
+info += '</div>';
+
+marker[{i}].bindPopup(info).openPopup();
+
+
