@@ -6,7 +6,8 @@ namespace WSR\Feusersmap\Controller;
 
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
+use TYPO3\CMS\Extbase\Http\ForwardResponse;
+use Psr\Http\Message\ResponseInterface;
 /**
  * This file is part of the "FeUsersMap" Extension for TYPO3 CMS.
  *
@@ -186,6 +187,20 @@ max 1 call/sec
 
 		$locations = $this->usersRepository->findLocationsInRadius($latLon, $requestArguments['radius'], $this->_GP['categories'], $this->conf['storagePid']);
 //        $markerJS = $this->getMarkerJS($locations, $categories, $latLon, $radius);
+
+        if(is_array($locations) && count($locations) == 0) {
+			$this->flashMessage('Feusersmap', 'No locations found in radius ' . $requestArguments['radius'] . ' km',
+					\TYPO3\CMS\Core\Messaging\FlashMessage::INFO);
+//            $requestArguments['radius'] = 500;
+//    		$locations = $this->usersRepository->findLocationsInRadius($latLon, $requestArguments['radius'], $this->_GP['categories'], $this->conf['storagePid']);
+/*
+            return (new ForwardResponse('details'))
+                ->withControllerName('Users')
+                ->withExtensionName('feusersmap')
+                ->withArguments(['locationUid' => '2'])
+            ;
+*/
+        }
   
  		// field images
 		if (is_array($locations)) {
