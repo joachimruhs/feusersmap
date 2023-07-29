@@ -197,7 +197,7 @@ max 1 call/sec
 // krexx($this->request->getQueryParams());
 // This get the GET params 
 /*
-            return (new ForwardResponse('map'))
+            return (new ForwardResponse('details'))
                 ->withControllerName('Users')
                 ->withExtensionName('feusersmap')
                 ->withArguments(['locationUid' => '2'])
