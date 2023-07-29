@@ -54,7 +54,7 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 	/*
 	 *	getUser
 	 *
-	 *	@param int $userUid	 *
+	 *	@param int $userUid
 	 *	@return array
 	 */	
 	function getUser($userUid) {
@@ -72,6 +72,64 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 		$result = $queryBuilder->execute()->fetchAll();
     	return $result;		
     }    
+
+	/*
+	 *	getImage
+	 *
+	 *	@param int $userUid	
+	 *	@return array
+	 */	
+	function getImage($userUid) {
+		$queryBuilder = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class)
+			->getQueryBuilderForTable('sys_file_reference');
+
+        $queryBuilder->select('*')
+		->from('sys_file_reference')
+        ->join(
+           'sys_file_reference',
+           'sys_file',
+           'f',
+           $queryBuilder->expr()->eq('f.uid', $queryBuilder->quoteIdentifier('uid_local'))
+        )
+		->where(
+			$queryBuilder->expr()->eq(
+				'uid_foreign',
+				$queryBuilder->createNamedParameter($userUid, \PDO::PARAM_INT)
+			)
+		)
+        -> andWhere (
+    			$queryBuilder->expr()->eq(
+    				'tablenames',
+    				$queryBuilder->createNamedParameter('fe_users', \PDO::PARAM_STR)
+    			)
+        );			
+
+
+		$result = $queryBuilder->execute()->fetchAll();
+
+    	return $result[0]['identifier'];		
+
+/*
+        $uid_local = $result[0]['uid_local'];
+
+		$queryBuilder = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class)
+			->getQueryBuilderForTable('sys_file');
+
+        $queryBuilder->select('*')
+		->from('sys_file')
+		->where(
+			$queryBuilder->expr()->eq(
+				'uid',
+				$queryBuilder->createNamedParameter($uid_local, \PDO::PARAM_INT)
+			)
+		);
+		$result = $queryBuilder->execute()->fetchAll();
+    	return $result[0]['identifier'];		
+ */
+    }    
+
+
+
 
 	/*
 	 *	find allCategories

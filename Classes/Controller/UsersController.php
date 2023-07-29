@@ -185,8 +185,28 @@ max 1 call/sec
 
 
 		$locations = $this->usersRepository->findLocationsInRadius($latLon, $requestArguments['radius'], $this->_GP['categories'], $this->conf['storagePid']);
-        $markerJS = $this->getMarkerJS($locations, $categories, $latLon, $radius);
+//        $markerJS = $this->getMarkerJS($locations, $categories, $latLon, $radius);
   
+ 		// field images
+		if (is_array($locations)) {
+			for ($i = 0; $i < count($locations); $i++) {
+//				$locations[$i]['infoWindowDescription'] = str_replace(array("\r\n", "\r", "\n"), '<br />', $locations[$i]['description']);  
+//				$locations[$i]['description'] = str_replace(array("\r\n", "\r", "\n"), '<br />', htmlspecialchars($locations[$i]['description'], ENT_QUOTES));
+				$address = $locations[$i]['address'];
+				$locations[$i]['address'] = str_replace(array("\r\n", "\r", "\n"), '<br />', $locations[$i]['address']);  
+	
+				$locations[$i]['infoWindowAddress'] = str_replace(array("\r\n", "\r", "\n"), '<br />', htmlspecialchars($address, ENT_QUOTES));
+	
+				if ($locations[$i]['image'] > 0) {
+						$images = $this->usersRepository->getImage($locations[$i]['uid']);
+    					$locations[$i]['images'] =	$images;				
+				}
+			}
+		}
+
+         $markerJS = $this->getMarkerJS($locations, $categories, $latLon, $radius);
+
+ 
         $categories = $this->usersRepository->findAllCategories($this->conf['storagePid']);
 
         $this->view->assign('categories', $categories);
@@ -239,7 +259,9 @@ max 1 call/sec
 
         $locationUid = $this->request->getArgument('locationUid');
         $user = $this->usersRepository->getUser($locationUid);
-//krexx($this->request->getArguments());
+		$image = $this->usersRepository->getImage($locationUid);
+        $this->view->assign('image', $image);
+
         $this->view->assign('user', $user);
         return $this->htmlResponse();
     }
