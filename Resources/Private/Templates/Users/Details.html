@@ -10,14 +10,20 @@ in /Configuration/ExtensionBuilder/settings.yaml:
           Details.html: keep
 
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
-
 <f:section name="content">
     <h1>Template for details action</h1>
-    <f:if condition="{image} > ''">
-        <img src="/fileadmin/{image}"  width="50" alt=""/><br />
+    <f:if condition="{images} > ''">
+    	<f:for each="{images}" as="image">
+            <img src="/fileadmin/{image.identifier}"  width="50" alt=""/><br />
+        </f:for>
     </f:if>
+    {user.0.description}
+    <br />
+    
     {user.0.first_name} {user.0.name}
+    <br />
     {user.0.address}
+    <br />
     {user.0.zip} {user.0.city}
 </f:section>
 </html>

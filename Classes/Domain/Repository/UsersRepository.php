@@ -79,7 +79,7 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 	 *	@param int $userUid	
 	 *	@return array
 	 */	
-	function getImage($userUid) {
+	function getImages($userUid, $tablenames) {
 		$queryBuilder = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class)
 			->getQueryBuilderForTable('sys_file_reference');
 
@@ -100,14 +100,14 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         -> andWhere (
     			$queryBuilder->expr()->eq(
     				'tablenames',
-    				$queryBuilder->createNamedParameter('fe_users', \PDO::PARAM_STR)
+    				$queryBuilder->createNamedParameter($tablenames, \PDO::PARAM_STR)
     			)
         );			
 
 
 		$result = $queryBuilder->execute()->fetchAll();
 
-    	return $result[0]['identifier'];		
+    	return $result;		
 
 /*
         $uid_local = $result[0]['uid_local'];

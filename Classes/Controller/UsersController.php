@@ -193,13 +193,18 @@ max 1 call/sec
 //				$locations[$i]['infoWindowDescription'] = str_replace(array("\r\n", "\r", "\n"), '<br />', $locations[$i]['description']);  
 //				$locations[$i]['description'] = str_replace(array("\r\n", "\r", "\n"), '<br />', htmlspecialchars($locations[$i]['description'], ENT_QUOTES));
 				$address = $locations[$i]['address'];
+				$description = $locations[$i]['description'];
 				$locations[$i]['address'] = str_replace(array("\r\n", "\r", "\n"), '<br />', $locations[$i]['address']);  
 	
 				$locations[$i]['infoWindowAddress'] = str_replace(array("\r\n", "\r", "\n"), '<br />', htmlspecialchars($address, ENT_QUOTES));
 	
+				$locations[$i]['infoWindowDescription'] = str_replace(array("\r\n", "\r", "\n"), '<br />', htmlspecialchars($description, ENT_QUOTES));
+
+
 				if ($locations[$i]['image'] > 0) {
-						$images = $this->usersRepository->getImage($locations[$i]['uid']);
+						$images = $this->usersRepository->getImages($locations[$i]['uid'], 'fe_users');
     					$locations[$i]['images'] =	$images;				
+
 				}
 			}
 		}
@@ -255,13 +260,13 @@ max 1 call/sec
      */
     public function detailsAction(): \Psr\Http\Message\ResponseInterface
     {
-		$requestArguments = $this->request->getParsedBody()['tx_feusersmap_map'];
+//		$requestArguments = $this->request->getParsedBody()['tx_feusersmap_map'];
 
         $locationUid = $this->request->getArgument('locationUid');
         $user = $this->usersRepository->getUser($locationUid);
-		$image = $this->usersRepository->getImage($locationUid);
-        $this->view->assign('image', $image);
+		$images = $this->usersRepository->getImages($locationUid, 'fe_users');
 
+        $this->view->assign('images', $images);
         $this->view->assign('user', $user);
         return $this->htmlResponse();
     }
