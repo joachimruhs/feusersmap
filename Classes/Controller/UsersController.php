@@ -175,7 +175,8 @@ max 1 call/sec
         $requestArguments['address'] = $requestArguments['address'] ?? 'Frankfurt';
         $requestArguments['country'] = $requestArguments['country'] ?? 'Deutschland';
         $requestArguments['radius'] = $requestArguments['radius'] ?? 500;
-        
+        $requestArguments['city'] = $requestArguments['city'] ?? 'Frankfurt';
+          
         $theAddress['address'] = $requestArguments['address'] . ' ' . $requestArguments['city'];
         $theAddress['country'] = $requestArguments['country'];
         
@@ -184,17 +185,19 @@ max 1 call/sec
 
         $this->_GP['categories'] = $requestArguments['categories'];       
 
-
 		$locations = $this->usersRepository->findLocationsInRadius($latLon, $requestArguments['radius'], $this->_GP['categories'], $this->conf['storagePid']);
 //        $markerJS = $this->getMarkerJS($locations, $categories, $latLon, $radius);
 
         if(is_array($locations) && count($locations) == 0) {
 			$this->flashMessage('Feusersmap', 'No locations found in radius ' . $requestArguments['radius'] . ' km',
 					\TYPO3\CMS\Core\Messaging\FlashMessage::INFO);
-//            $requestArguments['radius'] = 500;
-//    		$locations = $this->usersRepository->findLocationsInRadius($latLon, $requestArguments['radius'], $this->_GP['categories'], $this->conf['storagePid']);
+            $requestArguments['radius'] = 500;
+    		$locations = $this->usersRepository->findLocationsInRadius($latLon, $requestArguments['radius'], $this->_GP['categories'], $this->conf['storagePid']);
 
-/*            return (new ForwardResponse('details'))
+// krexx($this->request->getQueryParams());
+// This get the GET params 
+/*
+            return (new ForwardResponse('map'))
                 ->withControllerName('Users')
                 ->withExtensionName('feusersmap')
                 ->withArguments(['locationUid' => '2'])
