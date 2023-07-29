@@ -193,11 +193,11 @@ max 1 call/sec
 					\TYPO3\CMS\Core\Messaging\FlashMessage::INFO);
 //            $requestArguments['radius'] = 500;
 //    		$locations = $this->usersRepository->findLocationsInRadius($latLon, $requestArguments['radius'], $this->_GP['categories'], $this->conf['storagePid']);
-/*
-            return (new ForwardResponse('map'))
+
+/*            return (new ForwardResponse('details'))
                 ->withControllerName('Users')
                 ->withExtensionName('feusersmap')
-                ->withArguments(['locationUid' => '2', 'radius' => '500', 'address' => 'frankfurt'])
+                ->withArguments(['locationUid' => '2'])
             ;
 */
         }
