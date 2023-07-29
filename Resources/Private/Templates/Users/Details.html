@@ -13,7 +13,9 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 <f:section name="content">
     <h1>Template for details action</h1>
-    <img src="/fileadmin/{image}"  width="50" alt=""/><br />
+    <f:if condition="{image} > ''">
+        <img src="/fileadmin/{image}"  width="50" alt=""/><br />
+    </f:if>
     {user.0.first_name} {user.0.name}
     {user.0.address}
     {user.0.zip} {user.0.city}

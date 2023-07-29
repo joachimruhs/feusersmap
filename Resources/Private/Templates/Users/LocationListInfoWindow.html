@@ -5,8 +5,9 @@
 
 info = '<div class="infoWindow">';
 	info += '<div>LocationListInfoWindow</div>';
-
-	info += '<img src="/fileadmin/{location.images}"  width="50" alt=""/><br />';
+    <f:if condition="{location.images} > ''">
+    	info += '<img src="/fileadmin/{location.images}"  width="50" alt=""/><br />';
+    </f:if>
     info += '<f:link.page pageUid="{settings.detailsPageId}" additionalParams="{tx_feusersmap_details: {action: 'details', locationUid: '{location.uid}'}}" >{location.name}</f:link.page>';
 
 //	info += '<a href="?id={settings.detailsPageId}&tx_feusersmap_map[action]=show&tx_feusersmap_map[locationUid]={location.uid}"><strong>{location.name}</strong></a>';
