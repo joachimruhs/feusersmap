@@ -103,7 +103,7 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     				$queryBuilder->createNamedParameter($tablenames, \PDO::PARAM_STR)
     			)
         );			
-
+        $queryBuilder->orderBy('identifier', 'asc');
 
 		$result = $queryBuilder->execute()->fetchAll();
 

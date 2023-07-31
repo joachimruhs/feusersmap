@@ -361,7 +361,9 @@ max 1 call/sec
 		$view->setTemplatePathAndFilename($templatePath);
 		$view->assignMultiple($assign);
         $view->setFormat('html');
-        $view->setRequest($this->request);
+
+        if (\TYPO3\CMS\Core\Information\Typo3Version::getMajorVersion() > 11)
+            $view->setRequest($this->request);
 		return $view->render();
 	}
 
