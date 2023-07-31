@@ -71,26 +71,6 @@ class UsersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
 
 	/**
-	 * @var \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserGroupRepository
-	 */
-
-	protected $feGroupRepository;
-
-    /**
-     * Inject a feGroupRepository to enable DI
-     *
-     * @param \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserGroupRepository $feGroupRepository
-     * @return void
-     */
-    public function injectFeGroupRepository(\TYPO3\CMS\Extbase\Domain\Repository\FrontendUserGroupRepository $feGroupRepository) {
-        $this->feGroupRepository = $feGroupRepository;
-    }
-
-
-    
-    
-
-	/**
 	 * action geocode
 	 * @return \stdclass $latLon
 	 */
@@ -100,6 +80,12 @@ class UsersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		$address = urlencode($theAddress['address'] ?? '');
 		$country = urlencode($theAddress['country'] ?? '');
 
+		$latLon = new \stdClass();
+		$latLon->lat = 0;
+		$latLon->lon = 0;
+		$latLon->status = '';
+
+        if($address == '+') return $latLon;
 /*
 https://nominatim.openstreetmap.org/search/elzstr.%2010%20rheinhausen?format=json&addressdetails=1&limit=1&polygon_svg=1
 max 1 call/sec
@@ -169,8 +155,9 @@ max 1 call/sec
 
         $this->updateLatLon();
 
-		$requestArguments = $this->request->getParsedBody()['tx_feusersmap_map'];
-
+		$arguments = $this->request->getParsedBody()['tx_feusersmap_map'] ?? '';
+        if ($arguments) $requestArguments = $arguments;
+        
         // if no request arguments are given set them here
         $requestArguments['address'] = $requestArguments['address'] ?? 'Frankfurt';
         $requestArguments['country'] = $requestArguments['country'] ?? 'Deutschland';
@@ -183,7 +170,7 @@ max 1 call/sec
 
         $latLon = $this->geocodeAction($theAddress);
 
-        $this->_GP['categories'] = $requestArguments['categories'];       
+        $this->_GP['categories'] = $requestArguments['categories'] ?? [];       
 
 		$locations = $this->usersRepository->findLocationsInRadius($latLon, $requestArguments['radius'], $this->_GP['categories'], $this->conf['storagePid']);
 //        $markerJS = $this->getMarkerJS($locations, $categories, $latLon, $radius);
@@ -208,10 +195,12 @@ max 1 call/sec
  		// field images
 		if (is_array($locations)) {
 			for ($i = 0; $i < count($locations); $i++) {
+                // hide password
+                $locations[$i]['password'] = '';
 //				$locations[$i]['infoWindowDescription'] = str_replace(array("\r\n", "\r", "\n"), '<br />', $locations[$i]['description']);  
 //				$locations[$i]['description'] = str_replace(array("\r\n", "\r", "\n"), '<br />', htmlspecialchars($locations[$i]['description'], ENT_QUOTES));
-				$address = $locations[$i]['address'];
-				$description = $locations[$i]['description'];
+				$address = $locations[$i]['address'] ?? '';
+				$description = $locations[$i]['description'] ?? '';
 				$locations[$i]['address'] = str_replace(array("\r\n", "\r", "\n"), '<br />', $locations[$i]['address']);  
 	
 				$locations[$i]['infoWindowAddress'] = str_replace(array("\r\n", "\r", "\n"), '<br />', htmlspecialchars($address, ENT_QUOTES));
@@ -226,11 +215,11 @@ max 1 call/sec
 				}
 			}
 		}
+        $categories = $this->usersRepository->findAllCategories($this->conf['storagePid']);
 
-         $markerJS = $this->getMarkerJS($locations, $categories, $latLon, $radius);
+        $markerJS = $this->getMarkerJS($locations, $categories, $latLon, $requestArguments['radius']);
 
  
-        $categories = $this->usersRepository->findAllCategories($this->conf['storagePid']);
 
         $this->view->assign('categories', $categories);
         $this->view->assign('markerJS', $markerJS);
@@ -244,9 +233,7 @@ max 1 call/sec
 		for ($i = 0; $i < count($addresses); $i++) {	
 			$theAddress = array (
 				'uid' => $addresses[$i]['uid'],		
-				'address' => $addresses[$i]['address'] . ' ' . $addresses[$i]['city'],		
-//				'zipcode' => $addresses[$i]['zip'],		
-//				'city' => $addresses[$i]['city'],		
+				'address' => $addresses[$i]['address'] . ' ' . $addresses[$i]['zip'] . ' ' . $addresses[$i]['city'],		
 				'country' => $addresses[$i]['country'],		
 			);
 			sleep(rand(1, 3)); // makes Google happy
@@ -373,8 +360,8 @@ max 1 call/sec
 		$view = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
 		$view->setTemplatePathAndFilename($templatePath);
 		$view->assignMultiple($assign);
-//krexx($view->render());
-
+        $view->setFormat('html');
+        $view->setRequest($this->request);
 		return $view->render();
 	}
 
