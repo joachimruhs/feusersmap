@@ -320,7 +320,6 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 		}		
         $categoryList = $categories;
         
-        
         $context = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Context\Context::class);
         $sys_language_uid = $context->getPropertyFromAspect('language', 'id'); 
         

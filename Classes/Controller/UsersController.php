@@ -244,11 +244,11 @@ max 1 call/sec
 				$address['latitude'] = $latLon->lat;
 				$address['Longitude'] = $latLon->lon;
 				$this->usersRepository->updateLatitudeLongitude($theAddress['uid'], $latLon->lat, $latLon->lon);
-				$this->flashMessage('Feusersmap geocoder', 'Geocoded ' .  ' ' . $theAddress['address'] . ' ' . $latLon->status,
+				$this->flashMessage('Feusersmap geocoder', 'Geocoded ' .  ' ' . $addresses[$i]['first_name'] . ' ' . $addresses[$i]['name'] . ' ' .$theAddress['address'] . ' ' . $latLon->status,
 					\TYPO3\CMS\Core\Messaging\FlashMessage::INFO);
 			}
 			else {
-				$this->flashMessage('Feusersmap geocoder', 'could not geocode ' . $addresses[$i]['username'] . ' ' . $latLon->status,
+				$this->flashMessage('Feusersmap geocoder', 'could not geocode ' . $addresses[$i]['first_name'] . ' ' . $addresses[$i]['name'] . ' ' . $latLon->status,
 					\TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
 				$this->usersRepository->setMapgeocode($theAddress['uid'], 0);
 			}
