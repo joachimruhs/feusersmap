@@ -171,12 +171,6 @@ max 1 call/sec
         $latLon = $this->geocodeAction($theAddress);
 
         $this->_GP['categories'] = $requestArguments['categories'] ?? [];       
-		if ($this->_GP['categories'])
-    		$this->_GP['categories'] = @implode(',', $requestArguments['categories']);
-		// sanitizing categories						 
-		if ($this->_GP['categories'] && preg_match('/^[0-9,]*$/', $this->_GP['categories']) != 1) {
-			$this->_GP['categories'] = '';
-		}		
 
 		$locations = $this->usersRepository->findLocationsInRadius($latLon, $requestArguments['radius'], $this->_GP['categories'], $this->conf['storagePid']);
 //        $markerJS = $this->getMarkerJS($locations, $categories, $latLon, $radius);
@@ -368,7 +362,7 @@ max 1 call/sec
 		$view->assignMultiple($assign);
         $view->setFormat('html');
 
-        if (new \TYPO3\CMS\Core\Information\Typo3Version())->getMajorVersion() > 11)
+        if ((new \TYPO3\CMS\Core\Information\Typo3Version())->getMajorVersion() > 11)
             $view->setRequest($this->request);
 		return $view->render();
 	}

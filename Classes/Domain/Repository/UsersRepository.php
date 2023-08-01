@@ -307,11 +307,20 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 	 * 
 	 * @return QueryResultInterface|array the locations
 	 */
-	public function findLocationsInRadius($latLon, $radius, $categoryList, $storagePid) {
+	public function findLocationsInRadius($latLon, $radius, $categories, $storagePid) {
 		$radius = intval($radius);
 		$lat = $latLon->lat;
 		$lon =  $latLon->lon;
 
+		if ($categories)
+    		$categories = @implode(',', $categories);
+		// sanitizing categories						 
+		if ($categories && preg_match('/^[0-9,]*$/', $categories) != 1) {
+			$categories = '';
+		}		
+        $categoryList = $categories;
+        
+        
         $context = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Context\Context::class);
         $sys_language_uid = $context->getPropertyFromAspect('language', 'id'); 
         
