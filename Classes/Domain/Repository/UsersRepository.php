@@ -364,6 +364,7 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 	 */
     protected function filterCategories($result, $categoryList)
     {
+        $newResult = [];
         $categories = explode(',', $categoryList ?? '');
         for ($i = 0; $i < count($result); $i++) {
             for ($j = 0; $j < count($categories); $j++) {
