@@ -284,8 +284,6 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 		$lat = $latLon->lat;
 		$lon =  $latLon->lon;
 
-        $categoryList = @implode(',', $categoryList);
-
         $context = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Context\Context::class);
         $sys_language_uid = $context->getPropertyFromAspect('language', 'id'); 
         
@@ -300,7 +298,9 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 		$queryBuilder->selectLiteral(
 			'distinct a.*', '(acos(sin(' . floatval($lat * M_PI / 180) . ') * sin(latitude * ' . floatval(M_PI / 180) . ') + cos(' . floatval($lat * M_PI / 180) . ') *
 			cos(latitude * ' . floatval(M_PI / 180) . ') * cos((' . floatval($lon) . ' - longitude) * ' . floatval(M_PI / 180) . '))) * 6370 as `distance`
-			');
+			, (SELECT GROUP_CONCAT(g.title ORDER BY g.title SEPARATOR \', \') from fe_groups g
+            	where FIND_IN_SET(g.uid, a.usergroup) ) as categories
+        ');
 
 
 		$queryBuilder->orderBy('distance');
