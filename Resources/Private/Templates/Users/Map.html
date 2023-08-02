@@ -35,6 +35,8 @@ Otherwise your changes will be overwritten the next time you save the extension 
 <script src="typo3conf/ext/myleaflet/Resources/Public/JavaScript/markercluster.js"></script>
 <script src="typo3conf/ext/myleaflet/Resources/Public/JavaScript/leaflet-providers.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier-Leaflet/0.2.6/oms.min.js"></script>
+
 	<div class="ajaxSearch">
 	
 	<f:comment>
@@ -60,11 +62,13 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
     <form method="post" action='<f:uri.action action="map" pluginName="map" />' name="searchform">
 
-<f:comment>
 	<f:for each="{categories}" as="category" iteration="iter">
-		<input name="tx_feusersmap_map[categories][]" type="checkbox" value="{category.uid}"/>{category.title}
+		<div class="category">
+            <input name="tx_feusersmap_map[categories][]" type="checkbox" value="{category.uid}"/>{category.title}
+        </div>
 	</f:for>
-</f:comment>
+
+<f:comment>
 			<f:render section="categoryList" arguments="{categories: categories}" />
 			<f:section name="categoryList">
 				<ul>
@@ -79,9 +83,10 @@ Otherwise your changes will be overwritten the next time you save the extension 
 					</f:for>
 				</ul>
 			</f:section>
+</f:comment>
 
 
-	<input id="tx_feusersmap_city" name="tx_feusersmap_map[address]" type="text" value="" size="30" />
+	<input id="tx_feusersmap_city" name="tx_feusersmap_map[address]" type="text" value="{address}" size="30" />
     <select id="tx_feusersmap_country" name="tx_feusersmap_map[country]">
 		<option value="DE" selected="selected">Deutschland</option>
 		<option value="DE">DE</option>
@@ -129,6 +134,8 @@ Otherwise your changes will be overwritten the next time you save the extension 
 	var group = '';
 	var markerArray = [];
 
+    var oms;
+    
 	$(document).ready(function () {
 
 
@@ -141,13 +148,15 @@ Otherwise your changes will be overwritten the next time you save the extension 
 		var mtbMap = L.tileLayer.provider('MtbMap');
 		var osmHot = L.tileLayer.provider('OpenStreetMap.HOT');
 		var osmFrance = L.tileLayer.provider('OpenStreetMap.France');
-		
+
 		
 		map = L.map('map', {
 			center: [<f:format.raw>{settings.initialMapCoordinates}</f:format.raw>],
 			zoom: 14,
 			layers: [osmMap] // only 1 layer here
-    });
+        });
+
+        oms = new OverlappingMarkerSpiderfier(map);		
 		
 		var baseMaps = {
 //			"OSM Hot": osmHot,
@@ -163,31 +172,6 @@ Otherwise your changes will be overwritten the next time you save the extension 
 			'imperial': false
 		}).addTo(map);
 
-		
-		// show all locations when page is loaded
-		// if this is activated then a radial search is done
-		// otherwise the locations of the country are shown
-		$('#tx_myleaflet_city').val('Köln');
-
-		$('#tx_myleaflet_country').val('DE');
-		// if you want manually set the search radius comment the following line and
-		// set the text field tx_myleaflet_radius to another class, not hidden!
-//		$('#tx_myleaflet_radius').val('500');
-	
-		$('#tx_myleaflet_page').val('-1'); //  shows all locations in the map without result list
-//		$('#tx_myleaflet_page').val('0'); //  shows all locations in the map with result list
-
-
-		$('#tx_myleaflet_radius').val('500');
-		$('#tx_myleaflet_city').val('Köln');
-	
-		// do the ajax-call on click
-		$("#ajaxSearchButton").click(function (evt) {
-			$('#tx_myleaflet_page').val(0);
-			evt.preventDefault();
-		});
-
-  
 	});
 
 

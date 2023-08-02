@@ -157,14 +157,14 @@ max 1 call/sec
 
 		$arguments = $this->request->getParsedBody()['tx_feusersmap_map'] ?? '';
         if ($arguments) $requestArguments = $arguments;
-        
+
         // if no request arguments are given set them here
-        $requestArguments['address'] = $requestArguments['address'] ?? 'Frankfurt';
+        if (strlen($requestArguments['address']) == 0)
+        $requestArguments['address'] = 'Frankfurt';
         $requestArguments['country'] = $requestArguments['country'] ?? 'Deutschland';
         $requestArguments['radius'] = $requestArguments['radius'] ?? 500;
-        $requestArguments['city'] = $requestArguments['city'] ?? 'Frankfurt';
           
-        $theAddress['address'] = $requestArguments['address'] . ' ' . $requestArguments['city'];
+        $theAddress['address'] = $requestArguments['address'];
         $theAddress['country'] = $requestArguments['country'];
         
 
@@ -197,8 +197,7 @@ max 1 call/sec
 			for ($i = 0; $i < count($locations); $i++) {
                 // hide password
                 $locations[$i]['password'] = '';
-//				$locations[$i]['infoWindowDescription'] = str_replace(array("\r\n", "\r", "\n"), '<br />', $locations[$i]['description']);  
-//				$locations[$i]['description'] = str_replace(array("\r\n", "\r", "\n"), '<br />', htmlspecialchars($locations[$i]['description'], ENT_QUOTES));
+
 				$address = $locations[$i]['address'] ?? '';
 				$description = $locations[$i]['description'] ?? '';
 				$locations[$i]['address'] = str_replace(array("\r\n", "\r", "\n"), '<br />', $locations[$i]['address']);  
@@ -217,6 +216,9 @@ max 1 call/sec
 		}
         $categories = $this->usersRepository->findAllCategories($this->conf['storagePid']);
 
+/*
+ * works not in TYPO3 12
+ * 
         // get the parents of subgroup        
 		for($i = 0; $i < count($categories); $i++) {
             $arr[$i]['parent'] = '';
@@ -238,12 +240,11 @@ max 1 call/sec
 		} else {
 			$categories = $this->usersRepository->buildTree($arr);
 		}
-//krexx($categories);
-
+*/
         $markerJS = $this->getMarkerJS($locations, $categories, $latLon, $requestArguments['radius']);
 
  
-
+        $this->view->assign('address', $theAddress['address']);
         $this->view->assign('categories', $categories);
         $this->view->assign('markerJS', $markerJS);
         
@@ -332,6 +333,7 @@ max 1 call/sec
 					iconAnchor:   [' . intval($this->settings["markerIconWidth"] / 2) . ' , ' . $this->settings["markerIconHeight"] . ' ]
 				});
 				marker[' . $i . '] = L.marker([' . $lat . ',' . $lon . '], {icon: mapIcon' . $i . '}).addTo(markerGroup);
+                oms.addMarker(marker[' . $i .']);  // <-- here
 			';
 			
 			} else {
