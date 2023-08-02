@@ -216,12 +216,9 @@ max 1 call/sec
 		}
         $categories = $this->usersRepository->findAllCategories($this->conf['storagePid']);
 
-/*
- * works not in TYPO3 12
- * 
         // get the parents of subgroup        
 		for($i = 0; $i < count($categories); $i++) {
-            $arr[$i]['parent'] = '';
+            $arr[$i]['parent'] = 0;
         }
 		for($i = 0; $i < count($categories); $i++) {
 			$arr[$i]['uid'] = $categories[$i]['uid'];
@@ -240,7 +237,6 @@ max 1 call/sec
 		} else {
 			$categories = $this->usersRepository->buildTree($arr);
 		}
-*/
         $markerJS = $this->getMarkerJS($locations, $categories, $latLon, $requestArguments['radius']);
 
  

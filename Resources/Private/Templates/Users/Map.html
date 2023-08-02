@@ -62,13 +62,13 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
     <form method="post" action='<f:uri.action action="map" pluginName="map" />' name="searchform">
 
+<f:comment>
 	<f:for each="{categories}" as="category" iteration="iter">
 		<div class="category">
             <input name="tx_feusersmap_map[categories][]" type="checkbox" value="{category.uid}"/>{category.title}
         </div>
 	</f:for>
-
-<f:comment>
+</f:comment>
 			<f:render section="categoryList" arguments="{categories: categories}" />
 			<f:section name="categoryList">
 				<ul>
@@ -83,7 +83,6 @@ Otherwise your changes will be overwritten the next time you save the extension 
 					</f:for>
 				</ul>
 			</f:section>
-</f:comment>
 
 
 	<input id="tx_feusersmap_city" name="tx_feusersmap_map[address]" type="text" value="{address}" size="30" />

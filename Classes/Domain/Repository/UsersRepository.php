@@ -53,7 +53,7 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
     // works  not in TYPO3 12
 	function buildTree(array &$elements, $parentId = 0) {
-		$branch = $branch ?? array();
+		$branch = [];
 		foreach ($elements as &$element) {
 			if ($element['parent'] == $parentId) {
 				$children = $this->buildTree($elements, $element['uid']);
