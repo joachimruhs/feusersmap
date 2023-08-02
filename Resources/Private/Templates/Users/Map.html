@@ -60,9 +60,25 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
     <form method="post" action='<f:uri.action action="map" pluginName="map" />' name="searchform">
 
+<f:comment>
 	<f:for each="{categories}" as="category" iteration="iter">
 		<input name="tx_feusersmap_map[categories][]" type="checkbox" value="{category.uid}"/>{category.title}
 	</f:for>
+</f:comment>
+			<f:render section="categoryList" arguments="{categories: categories}" />
+			<f:section name="categoryList">
+				<ul>
+					<f:for each="{categories}" as="category">
+						<li>
+							<input type="checkbox" id="{category.name}" name="tx_feusersmap_map[categories][]"  value="{category.uid}"/>
+							<label for="{category.name}">{category.name}</label>
+							<f:if condition="{category.children}">
+								<f:render section="categoryList" arguments="{categories: category.children}" />
+							</f:if>
+						</li>
+					</f:for>
+				</ul>
+			</f:section>
 
 
 	<input id="tx_feusersmap_city" name="tx_feusersmap_map[address]" type="text" value="" size="30" />

@@ -217,6 +217,29 @@ max 1 call/sec
 		}
         $categories = $this->usersRepository->findAllCategories($this->conf['storagePid']);
 
+        // get the parents of subgroup        
+		for($i = 0; $i < count($categories); $i++) {
+            $arr[$i]['parent'] = '';
+        }
+		for($i = 0; $i < count($categories); $i++) {
+			$arr[$i]['uid'] = $categories[$i]['uid'];
+            if ($categories[$i]['subgroup']) {
+                $parent = $this->usersRepository->getParent($categories[$i]['subgroup']);
+                for ($j = 0; $j < count($categories); $j++) {
+                    if ($categories[$j]['uid'] == $categories[$i]['subgroup']) $arr[$j]['parent'] = $parent;
+                }
+            }
+			$arr[$i]['name'] = $categories[$i]['title'];	
+		}	
+
+	
+		if (!count($arr)) {
+			$this->addFlashMessage('No location categories found, please insert some first!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
+		} else {
+			$categories = $this->usersRepository->buildTree($arr);
+		}
+//krexx($categories);
+
         $markerJS = $this->getMarkerJS($locations, $categories, $latLon, $requestArguments['radius']);
 
  

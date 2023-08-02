@@ -26,6 +26,46 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
  */
 class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
+
+	/*
+	 *	get parent
+	 *
+	 *	@param int $uid
+	 *
+	 *	@return array
+	 */	
+	function getParent($subgroup) {
+		$queryBuilder = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class)
+			->getQueryBuilderForTable('fe_users');
+
+        $queryBuilder->select('uid')
+		->from('fe_groups')
+		->where(
+			$queryBuilder->expr()->eq(
+				'subgroup',
+				$queryBuilder->createNamedParameter($subgroup, \PDO::PARAM_INT)
+			)
+		);			
+		$result = $queryBuilder->execute()->fetchAll();
+    	return $result[0]['uid'];		
+	}
+
+
+	function buildTree(array &$elements, $parentId = 0) {
+		$branch = array();
+		foreach ($elements as &$element) {
+			if ($element['parent'] == $parentId) {
+				$children = $this->buildTree($elements, $element['uid']);
+				if ($children) {
+					$element['children'] = $children;
+				}
+				$branch[$element['uid']] = $element;
+				unset($element);
+			}
+		}
+		return $branch;
+	}
+
 	/*
 	 *	get FE user
 	 *
