@@ -62,27 +62,39 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
     <form method="post" action='<f:uri.action action="map" pluginName="map" />' name="searchform">
 
-<f:comment>
-	<f:for each="{categories}" as="category" iteration="iter">
-		<div class="category">
-            <input name="tx_feusersmap_map[categories][]" type="checkbox" value="{category.uid}"/>{category.title}
-        </div>
-	</f:for>
-</f:comment>
-			<f:render section="categoryList" arguments="{categories: categories}" />
-			<f:section name="categoryList">
-				<ul>
-					<f:for each="{categories}" as="category">
-						<li>
-							<input type="checkbox" id="{category.name}" name="tx_feusersmap_map[categories][]"  value="{category.uid}"/>
-							<label for="{category.name}">{category.name}</label>
-							<f:if condition="{category.children}">
-								<f:render section="categoryList" arguments="{categories: category.children}" />
-							</f:if>
-						</li>
-					</f:for>
-				</ul>
-			</f:section>
+        <f:render section="categoryList" arguments="{_all}" />
+        <f:section name="categoryList">
+            <ul>
+                <f:for each="{categories}" as="category">
+                    <li>
+
+                        <f:variable name="check" value="0" />
+
+                        <f:for each="{selectedCategories}" as="selected" iteration="categoryIter">
+                            <f:if condition="{selected} == {category.uid}">
+                                <f:then>
+                                    <f:variable name="check" value="1" />
+                                </f:then>
+                            </f:if>
+                        </f:for>    
+                        <f:if condition="{check}">
+                            <f:then>
+                                <input type="checkbox" id="{category.name}" name="tx_feusersmap_map[categories][]"  value="{category.uid}" checked/>
+                            </f:then>
+                            <f:else>
+                                <input type="checkbox" id="{category.name}" name="tx_feusersmap_map[categories][]"  value="{category.uid}"/>
+                           </f:else>
+                        </f:if>
+
+
+                        <label for="{category.name}">{category.name}</label>
+                        <f:if condition="{category.children}">
+                            <f:render section="categoryList" arguments="{categories: category.children, selectedCategories: selectedCategories}" />
+                        </f:if>
+                    </li>
+                </f:for>
+            </ul>
+        </f:section>
 
 
 	<input id="tx_feusersmap_city" name="tx_feusersmap_map[address]" type="text" value="{address}" size="30" />
@@ -103,15 +115,22 @@ Otherwise your changes will be overwritten the next time you save the extension 
 	<!--
 	<input id="tx_myleaflet_radiusx" type="text" value="50" class="hidden1"/>
 	-->
-	<select id="tx_feusersmap_radius" name="tx_feusersmap_map[radius]">
-		<option value="10">10 km</option>
-		<option value="20">20 km</option>
-		<option value="40">40 km</option>
-		<option value="60">60 km</option>
-		<option value="100">100 km</option>
-		<option value="500" selected="selected">500 km</option>
-	</select>
 
+    <f:variable name="radi" value="{1:'10',2:'20',3:'40',4:'100',5:'300',6:'500'}" />
+
+	<select id="tx_feusersmap_radius" name="tx_feusersmap_map[radius]">
+
+    <f:for each="{radi}" as="radius" iteration="radiIter">
+        <f:if condition="{radius} == {selectedRadius}">
+            <f:then>
+        		<option value="{radius}" selected="selected">{radius} km</option>
+            </f:then>            
+            <f:else>
+        		<option value="{radius}">{radius} km</option>
+            </f:else>
+        </f:if>
+    </f:for>
+	</select>
 
     <button type="submit">Suchen</button>
     

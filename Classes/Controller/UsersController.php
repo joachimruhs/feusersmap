@@ -91,7 +91,7 @@ https://nominatim.openstreetmap.org/search/elzstr.%2010%20rheinhausen?format=jso
 max 1 call/sec
 */
 
-		$apiURL = "https://nominatim.openstreetmap.org/search/$address,+$country?format=json&limit=1";
+		$apiURL = "https://nominatim.openstreetmap.org/search?q=$address,+$country&format=json&limit=1";
 
 		$addressData = $this->get_webpage($apiURL);
         if ($addressData == '[]') return $latLon;
@@ -157,7 +157,9 @@ max 1 call/sec
 
 		$arguments = $this->request->getParsedBody()['tx_feusersmap_map'] ?? '';
         if ($arguments) $requestArguments = $arguments;
-
+        
+        $requestArguments['address'] = $requestArguments['address'] ?? '';
+        $requestArguments['categories'] = $requestArguments['categories'] ?? [];
         // if no request arguments are given set them here
         if (strlen($requestArguments['address']) == 0)
         $requestArguments['address'] = 'Frankfurt';
@@ -167,7 +169,6 @@ max 1 call/sec
         $theAddress['address'] = $requestArguments['address'];
         $theAddress['country'] = $requestArguments['country'];
         
-
         $latLon = $this->geocodeAction($theAddress);
 
         $this->_GP['categories'] = $requestArguments['categories'] ?? [];       
@@ -239,9 +240,10 @@ max 1 call/sec
 		}
         $markerJS = $this->getMarkerJS($locations, $categories, $latLon, $requestArguments['radius']);
 
- 
         $this->view->assign('address', $theAddress['address']);
         $this->view->assign('categories', $categories);
+        $this->view->assign('selectedCategories', $requestArguments['categories']);
+        $this->view->assign('selectedRadius', $requestArguments['radius']);
         $this->view->assign('markerJS', $markerJS);
         
         return $this->htmlResponse();
