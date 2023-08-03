@@ -34,11 +34,28 @@ $tmp_feusersmap_columns = array(
 			'default' => '1',
 		),
 	),
+	'latitude' => array(
+		'exclude' => 1,
+		'label' => 'LLL:EXT:feusersmap/Resources/Private/Language/locallang_db.xlf:tx_feusersmap_domain_model_users.latitude',
+		'config' => array(
+			'type' => 'input',
+			'default' => '',
+		),
+	),
+	'longitude' => array(
+		'exclude' => 1,
+		'label' => 'LLL:EXT:feusersmap/Resources/Private/Language/locallang_db.xlf:tx_feusersmap_domain_model_users.longitude',
+		'config' => array(
+			'type' => 'input',
+			'default' => '',
+		),
+	),
+
 );
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('fe_users',$tmp_feusersmap_columns);
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('fe_users', 'leafletmapicon,mapgeocode;;,', '', 'after:country');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('fe_users', 'leafletmapicon,mapgeocode,latitude,longitude;;,', '', 'after:country');
 
         
 
