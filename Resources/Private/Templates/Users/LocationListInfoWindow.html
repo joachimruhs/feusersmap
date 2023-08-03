@@ -2,7 +2,6 @@
 
 <f:comment>Template for the infoWindow </f:comment>
 
-
 info = '<div class="infoWindow">';
 	info += '<div>LocationListInfoWindow</div>';
     <f:if condition="{location.images} > ''">
@@ -25,14 +24,6 @@ info = '<div class="infoWindow">';
 	info += "<div>{location.phone}</div>";
 	info += '<div><f:format.raw>{location.infoWindowDescription}</f:format.raw></div>';
 
-
-<f:comment>
-
-info += '<div><f:format.stripTags><f:format.htmlentitiesDecode keepQuotes="1">{location.infoWindowDescription}</f:format.htmlentitiesDecode></f:format.stripTags></div>';
-
-info += "<div><f:debug>{location}</f:debug>kkkkk</div>"
-	info += '<div><f:format.raw>{location.infoWindowDescription}</f:format.raw></div>';
-</f:comment>	
 info += '</div>';
 
 marker[{i}].bindPopup(info).openPopup();

@@ -27,6 +27,15 @@ plugin.tx_feusersmap {
 		# cat=plugin.tx_feusersmap/leafletmaps; type=string; label=Initial map coordinates: Initial map coordinates
 		initialMapCoordinates = 48,8
 
+		# cat=plugin.tx_feusersmap/leafletmaps; type=int; label=Details page ID: Details page ID
+		detailsPageId = 
+
+		# cat=plugin.tx_feusersmap/leafletmaps; type=string; label=Search Address: Search Address
+		searchAddress = Frankfurt
+
+		# cat=plugin.tx_feusersmap/leafletmaps; type=int; label=Use fe_groupleafletmapicons: Use the leafletmapicon from fe_groups
+		useGroupLeafletmapicons = 1
+
 		# cat=plugin.tx_feusersmap/leafletmaps; type=boolean; label=Marker clusterer: Enables the marker clusterer
 		enableMarkerClusterer = 0
 

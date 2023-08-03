@@ -68,6 +68,31 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 	}
 
 	/*
+	 *	get leafletmapicon
+	 *
+	 *	@param int $usergroup
+	 *	
+	 *	@return string
+	 */	
+	function getLeafletIcon($usergroup) {
+		$queryBuilder = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class)
+			->getQueryBuilderForTable('fe_groups');
+
+        $queryBuilder->select('leafletmapicon')
+		->from('fe_groups')
+		->where(
+			$queryBuilder->expr()->eq(
+				'uid',
+				$queryBuilder->createNamedParameter($usergroup, \PDO::PARAM_INT)
+			)
+		);			
+		$result = $queryBuilder->execute()->fetchAll();
+    	return $result[0]['leafletmapicon'];		
+	}
+
+
+
+	/*
 	 *	get FE user
 	 *
 	 *	@param int $uid

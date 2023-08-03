@@ -162,7 +162,7 @@ max 1 call/sec
         $requestArguments['categories'] = $requestArguments['categories'] ?? [];
         // if no request arguments are given set them here
         if (strlen($requestArguments['address']) == 0)
-        $requestArguments['address'] = 'Frankfurt';
+        $requestArguments['address'] = $this->settings['searchAddress'];
         $requestArguments['country'] = $requestArguments['country'] ?? 'Deutschland';
         $requestArguments['radius'] = $requestArguments['radius'] ?? 500;
           
@@ -207,7 +207,9 @@ max 1 call/sec
 	
 				$locations[$i]['infoWindowDescription'] = str_replace(array("\r\n", "\r", "\n"), '<br />', htmlspecialchars($description, ENT_QUOTES));
 
-
+                if ($this->settings['useGroupLeafletmapicons']) {
+                    $locations[$i]['leafletmapicon'] = $this->usersRepository->getLeafletIcon($locations[$i]['usergroup']);
+                }
 				if ($locations[$i]['image'] > 0) {
 						$images = $this->usersRepository->getImages($locations[$i]['uid'], 'fe_users');
     					$locations[$i]['images'] =	$images;				

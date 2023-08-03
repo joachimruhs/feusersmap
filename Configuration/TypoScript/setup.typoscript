@@ -24,7 +24,9 @@ plugin.tx_feusersmap {
 		defaultIcon = {$plugin.tx_feusersmap.settings.defaultIcon}
 		detailsPageId = {$plugin.tx_feusersmap.settings.detailsPageId}
 		enableMarkerClusterer = {$plugin.tx_feusersmap.settings.enableMarkerClusterer}
+		searchAddress = {$plugin.tx_feusersmap.settings.searchAddress}
 		initialMapCoordinates = {$plugin.tx_feusersmap.settings.initialMapCoordinates}
+		useGroupLeafletmapicons = {$plugin.tx_feusersmap.settings.useGroupLeafletmapicons}
 		markerIconWidth = {$plugin.tx_feusersmap.settings.markerIconWidth}
 		markerIconHeight = {$plugin.tx_feusersmap.settings.markerIconHeight}
 	}
