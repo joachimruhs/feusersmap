@@ -2,8 +2,13 @@
     "name": "wsr/feusersmap",
     "type": "typo3-cms-extension",
     "description": "OpenstreetMap for fe_users",
-    "authors": [],
-    "license": "GPL-2.0-or-later",
+    "authors": [
+    {
+      "name": "Joachim Ruhs",
+      "email": "postmaster@joachim-ruhs.de"
+    }
+    ],
+    "license": "MIT",
     "require": {
         "typo3/cms-core": "^11.5"
     },
