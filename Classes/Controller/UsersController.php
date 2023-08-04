@@ -232,6 +232,7 @@ max 1 call/sec
                 }
             }
 			$arr[$i]['name'] = $categories[$i]['title'];	
+			$arr[$i]['leafletmapicon'] = $categories[$i]['leafletmapicon'];	
 		}	
 
 	

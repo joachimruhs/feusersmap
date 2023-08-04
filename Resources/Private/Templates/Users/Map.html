@@ -61,13 +61,11 @@ Otherwise your changes will be overwritten the next time you save the extension 
 	</div>	
 
     <form method="post" action='<f:uri.action action="map" pluginName="map" />' name="searchform">
-
         <f:render section="categoryList" arguments="{_all}" />
         <f:section name="categoryList">
             <ul>
                 <f:for each="{categories}" as="category">
                     <li>
-
                         <f:variable name="check" value="0" />
 
                         <f:for each="{selectedCategories}" as="selected" iteration="categoryIter">
@@ -80,14 +78,19 @@ Otherwise your changes will be overwritten the next time you save the extension 
                         <f:if condition="{check}">
                             <f:then>
                                 <input type="checkbox" id="{category.name}" name="tx_feusersmap_map[categories][]"  value="{category.uid}" checked/>
+                                <label for="{category.name}">{category.name}</label>
+                                <f:if condition="{settings.useGroupLeafletmapicons} == 1">
+                                    <img src="/fileadmin/ext/feusersmap/Resources/Public/Icons/{category.leafletmapicon}">
+                                </f:if>
                             </f:then>
                             <f:else>
                                 <input type="checkbox" id="{category.name}" name="tx_feusersmap_map[categories][]"  value="{category.uid}"/>
+                                <label for="{category.name}">{category.name}</label>
+                                <f:if condition="{settings.useGroupLeafletmapicons} == 1">
+                                    <img src="/fileadmin/ext/feusersmap/Resources/Public/Icons/{category.leafletmapicon}">
+                                </f:if>
                            </f:else>
                         </f:if>
-
-
-                        <label for="{category.name}">{category.name}</label>
                         <f:if condition="{category.children}">
                             <f:render section="categoryList" arguments="{categories: category.children, selectedCategories: selectedCategories}" />
                         </f:if>
