@@ -53,21 +53,21 @@ class UsersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
  
  	/**
-	 * feusersRepository is deprecated!!!!
+	 * groupsRepository
 	 * 
-	 * @var \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository
+     * @var \WSR\Feusersmap\Domain\Repository\GroupsRepository $groupsRepository
  	 */
-//	protected $feUsersRepository = NULL;
+	protected $groupsRepository = NULL;
 
     /**
-     * Inject a userRepository to enable DI is deprecated!!!!
+     * Inject a groupsRepository to enable DI
      *
-     * @param \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository $feUsersRepository
+     * @param \WSR\Feusersmap\Domain\Repository\GroupsRepository $groupsRepository
      * @return void
      */
-//    public function injectFeUsersRepository(\TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository $feUsersRepository) {
-//        $this->feUsersRepository = $feUsersRepository;
-//    }
+    public function injectGroupsRepository(\WSR\Feusersmap\Domain\Repository\GroupsRepository $groupsRepository) {
+        $this->groupsRepository = $groupsRepository;
+    }
 
 
 	/**
@@ -208,7 +208,7 @@ max 1 call/sec
 				$locations[$i]['infoWindowDescription'] = str_replace(array("\r\n", "\r", "\n"), '<br />', htmlspecialchars($description, ENT_QUOTES));
 
                 if ($this->settings['useGroupLeafletmapicons']) {
-                    $locations[$i]['leafletmapicon'] = $this->usersRepository->getLeafletIcon($locations[$i]['usergroup']);
+                    $locations[$i]['leafletmapicon'] = $this->groupsRepository->getLeafletIcon($locations[$i]['usergroup']);
                 }
 				if ($locations[$i]['image'] > 0) {
 						$images = $this->usersRepository->getImages($locations[$i]['uid'], 'fe_users');
@@ -217,7 +217,7 @@ max 1 call/sec
 				}
 			}
 		}
-        $categories = $this->usersRepository->findAllCategories($this->conf['storagePid']);
+        $categories = $this->groupsRepository->findAllCategories($this->conf['storagePid']);
 
         // get the parents of subgroup        
 		for($i = 0; $i < count($categories); $i++) {
@@ -226,7 +226,7 @@ max 1 call/sec
 		for($i = 0; $i < count($categories); $i++) {
 			$arr[$i]['uid'] = $categories[$i]['uid'];
             if ($categories[$i]['subgroup']) {
-                $parent = $this->usersRepository->getParent($categories[$i]['subgroup']);
+                $parent = $this->groupsRepository->getParent($categories[$i]['subgroup']);
                 for ($j = 0; $j < count($categories); $j++) {
                     if ($categories[$j]['uid'] == $categories[$i]['subgroup']) $arr[$j]['parent'] = $parent;
                 }
@@ -239,7 +239,7 @@ max 1 call/sec
 		if (!count($arr)) {
 			$this->addFlashMessage('No location categories found, please insert some first!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
 		} else {
-			$categories = $this->usersRepository->buildTree($arr);
+			$categories = $this->groupsRepository->buildTree($arr);
 		}
         $markerJS = $this->getMarkerJS($locations, $categories, $latLon, $requestArguments['radius']);
 
