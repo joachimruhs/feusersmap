@@ -340,7 +340,7 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         ');
 
 		$queryBuilder->orderBy('distance');
-		$queryBuilder->addOrderBy('name', 'desc');
+		$queryBuilder->addOrderBy('name', 'asc');
         $queryBuilder->having('`distance` <= ' . $queryBuilder->createNamedParameter($radius, \PDO::PARAM_INT));
 
 		$result =  $queryBuilder->execute()->fetchAll();

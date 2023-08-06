@@ -177,7 +177,12 @@ Otherwise your changes will be overwritten the next time you save the extension 
 			layers: [osmMap] // only 1 layer here
         });
 
-        oms = new OverlappingMarkerSpiderfier(map);		
+        var options = {  //**spiderfier
+//           keepSpiderfied: true,
+//           nearbyDistance: 20,
+            circleFootSeparation: 100
+        };
+        oms = new OverlappingMarkerSpiderfier(map, options);		
 		
 		var baseMaps = {
 //			"OSM Hot": osmHot,
