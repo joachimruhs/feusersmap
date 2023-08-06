@@ -339,9 +339,7 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             	where FIND_IN_SET(g.uid, a.usergroup) ) as categories
         ');
 
-
 		$queryBuilder->orderBy('distance');
-
         $queryBuilder->having('`distance` <= ' . $queryBuilder->createNamedParameter($radius, \PDO::PARAM_INT));
 
 		$result =  $queryBuilder->execute()->fetchAll();
@@ -350,19 +348,6 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 		return $result;
 	}
     
-/*
-			(SELECT GROUP_CONCAT(e.title ORDER BY e.title SEPARATOR \', \') from tt_address d, sys_category 
-						e , sys_category_record_mm m
-						where m.uid_local = e.uid
-						and m.uid_foreign = d.uid
-						and e.sys_language_uid = 0
-						and d.uid = a.uid
-						and e.pid in (' . $storagePidList  . ')
-					) as categories
- */   
-    
-    
-
 
 	/*
 	 * filterCategories	
