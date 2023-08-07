@@ -11,7 +11,7 @@ info = '<div class="infoWindow clearfix">';
             <f:for each="{location.images}" as="image">
                 info += '<img class="image" src="/fileadmin/{image.identifier}"  width="50" alt=""/><br />';
             </f:for>
-            info += '</td></div>';
+            info += '<div></td>';
         </f:if>
         info += '</td><td class="text">';
         info += '<f:link.page pageUid="{settings.detailsPageId}" additionalParams="{tx_feusersmap_details: {action: 'details', locationUid: '{location.uid}'}}" >{location.first_name} {location.name}</f:link.page>';

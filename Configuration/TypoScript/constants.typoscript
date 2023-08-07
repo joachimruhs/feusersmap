@@ -31,7 +31,7 @@ plugin.tx_feusersmap {
 		detailsPageId = 
 
 		# cat=plugin.tx_feusersmap/leafletmaps; type=string; label=Search Address: Search Address
-		searchAddress = Frankfurt
+		searchAddress = Köln
 
 		# cat=plugin.tx_feusersmap/leafletmaps; type=int; label=Use fe_groupleafletmapicons: Use the leafletmapicon from fe_groups
 		useGroupLeafletmapicons = 1
