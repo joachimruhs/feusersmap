@@ -10,6 +10,7 @@
     height: auto;
 }
 .tx-feusersmap .mapSearch .infoWindow .content {
+    /* floating doesn't work in leaflet infoWindow */
     float: left
 }
 .tx-feusersmap .mapSearch .infoWindow .text {
