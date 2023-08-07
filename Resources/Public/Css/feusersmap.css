@@ -1,0 +1,34 @@
+/* ccs styles for feusersmap */
+
+
+.tx-feusersmap .mapSearch {
+    
+}
+.tx-feusersmap .mapSearch .infoWindow img {
+    float: left;
+    width: 125px;
+    height: auto;
+}
+.tx-feusersmap .mapSearch .infoWindow .content {
+    float: left
+}
+.tx-feusersmap .mapSearch .infoWindow .text {
+    max-width: 120px;
+}
+
+.clearfix {
+/*    border: 2px solid green; */
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.tx-feusersmap .mapSearch .infoWindow .content .text {
+}
+
+.tx-feusersmap table {
+    border-spacing: 0;
+}

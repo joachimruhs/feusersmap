@@ -36,6 +36,7 @@ plugin.tx_feusersmap {
 }
 
 
+page.includeCSS.tx_feusersmap = EXT:feusersmap/Resources/Public/Css/feusersmap.css
 
 
 page.includeJS {
