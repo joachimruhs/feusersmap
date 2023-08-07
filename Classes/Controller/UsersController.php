@@ -147,7 +147,7 @@ max 1 call/sec
     public function mapAction(): \Psr\Http\Message\ResponseInterface
     {
 
-		$iconPath = 'fileadmin/ext/feusersmap/Resources/Public/Icons/';
+		$iconPath = 'fileadmin/ext/feusersmap/Resources/Public/MapIcons/';
 
    		if (!is_dir(Environment::getPublicPath() . '/' . $iconPath)) {
             $fileSystem = new FileSystem();
@@ -337,7 +337,7 @@ max 1 call/sec
 			$out .= '
 		
 				var mapIcon' . $i . ' = L.icon({
-					iconUrl: "/fileadmin/ext/myleaflet/Resources/Public/Icons/' . $locations[$i]['leafletmapicon'] .'",
+					iconUrl: "/fileadmin/ext/feusersmap/Resources/Public/MapIcons/' . $locations[$i]['leafletmapicon'] .'",
 					iconSize:     [' . $this->settings["markerIconWidth"] . ' , ' . $this->settings["markerIconHeight"] . ' ], // size of the icon
 					iconAnchor:   [' . intval($this->settings["markerIconWidth"] / 2) . ' , ' . $this->settings["markerIconHeight"] . ' ]
 				});

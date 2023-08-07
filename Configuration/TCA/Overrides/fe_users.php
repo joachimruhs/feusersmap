@@ -12,7 +12,7 @@ $tmp_feusersmap_columns = array(
 		    'items' => [
 		        [ '', 0 ],
 			],
-			'fileFolder' => 'fileadmin/ext/feusersmap/Resources/Public/Icons/',
+			'fileFolder' => 'fileadmin/ext/feusersmap/Resources/Public/MapIcons/',
 			'fileFolder_extList' => 'png,jpg,jpeg,gif',
 			'fileFolder_recursions' => 0,
 			'fieldWizard' => [
