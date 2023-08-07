@@ -8,6 +8,10 @@ use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use Psr\Http\Message\ResponseInterface;
+
+use Symfony\Component\Filesystem\Filesystem;
+
+
 /**
  * This file is part of the "FeUsersMap" Extension for TYPO3 CMS.
  *
@@ -142,16 +146,20 @@ max 1 call/sec
      */
     public function mapAction(): \Psr\Http\Message\ResponseInterface
     {
+
 		$iconPath = 'fileadmin/ext/feusersmap/Resources/Public/Icons/';
-		if (!is_dir(Environment::getPublicPath() . '/' . $iconPath)) {
+
+   		if (!is_dir(Environment::getPublicPath() . '/' . $iconPath)) {
+            $fileSystem = new FileSystem();
+            if (Environment::getPublicPath() != Environment::getProjectPath()) {
+                //  we are in composerMode
+    			$sourceDir = Environment::getProjectPath() . '/vendor/wsr/feusersmap/Resources/Public/';
+            } else {
+                $sourceDir = 'typo3conf/ext/feusersmap/Resources/Public/';
+            }
+            $fileSystem->mirror($sourceDir, 'fileadmin/ext/feusersmap/Resources/Public/');
 			$this->addFlashMessage('Directory ' . $iconPath . ' created for use with own mapIcons!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::INFO);
-			GeneralUtility::mkdir_deep(Environment::getPublicPath() . '/' . $iconPath);
-			$sourceDir = 'typo3conf/ext/feusersmap/Resources/Public/MapIcons/';
-			$files = GeneralUtility::getFilesInDir($sourceDir, 'png,gif,jpg');			
-			foreach ($files as $file) {
-				copy($sourceDir . $file, $iconPath . $file);
-			}
-		}
+        }
 
         $this->updateLatLon();
 
