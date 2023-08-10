@@ -158,38 +158,6 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     }    
 
 
-
-
-	/*
-	 *	find allCategories
-	 *
-	 *	@param int $storagePid
-	 *	@return array
-	 */	
-	function findAllCategories($storagePid) {
-		$queryBuilder = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class)
-			->getQueryBuilderForTable('fe_groups');
-
-        $queryBuilder->select('*')
-		->from('fe_groups')
-		->where(
-			$queryBuilder->expr()->eq(
-				'pid',
-				$queryBuilder->createNamedParameter($storagePid, \PDO::PARAM_INT)
-			)
-		);			
-		$queryBuilder->andWhere(
-					$queryBuilder->expr()->andX(
-						$queryBuilder->expr()->eq('hidden', $queryBuilder->createNamedParameter('', \PDO::PARAM_INT)),
-						$queryBuilder->expr()->eq('deleted', $queryBuilder->createNamedParameter('', \PDO::PARAM_INT))
-					)
-            );
-		$result = $queryBuilder->execute()->fetchAll();
-    	return $result;		
-	}
-
-
-
 	/*
 	 *	update latitude and longitude for a FE user
 	 *

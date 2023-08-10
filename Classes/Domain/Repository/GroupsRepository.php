@@ -90,8 +90,6 @@ class GroupsRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 	}
 
 
-
-
 	/*
 	 *	getImage
 	 *
@@ -127,24 +125,6 @@ class GroupsRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 		$result = $queryBuilder->execute()->fetchAll();
 
     	return $result;		
-
-/*
-        $uid_local = $result[0]['uid_local'];
-
-		$queryBuilder = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class)
-			->getQueryBuilderForTable('sys_file');
-
-        $queryBuilder->select('*')
-		->from('sys_file')
-		->where(
-			$queryBuilder->expr()->eq(
-				'uid',
-				$queryBuilder->createNamedParameter($uid_local, \PDO::PARAM_INT)
-			)
-		);
-		$result = $queryBuilder->execute()->fetchAll();
-    	return $result[0]['identifier'];		
- */
     }    
 
 
@@ -174,60 +154,10 @@ class GroupsRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 						$queryBuilder->expr()->eq('deleted', $queryBuilder->createNamedParameter('', \PDO::PARAM_INT))
 					)
             );
-		$result = $queryBuilder->execute()->fetchAll();
+        $queryBuilder->orderBy('title');
+        $result = $queryBuilder->execute()->fetchAll();
     	return $result;		
 	}
-
-	/**
-	 * search for records which need to be updated lat lon when coordinates are 0.0 and
-	 * mapgeocode = 1
-	 * @param string $storagePid
-	 * 
-	 * @return array
-	 */
-	public function updateLatLon($storagePid) {
-
-		$queryBuilder = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class)
-			->getQueryBuilderForTable('tx_myttaddressmap_domain_model_address');
-
-		$queryBuilder->select('*')->from('fe_users', 'a');
-
-		$arrayOfPids = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $storagePid, TRUE);
-
-		$queryBuilder->where(
-			$queryBuilder->expr()->in(
-				'a.pid',
-				$queryBuilder->createNamedParameter(
-					$arrayOfPids,
-					\Doctrine\DBAL\Connection::PARAM_INT_ARRAY
-				)
-			)
-		);		
-
-		$queryBuilder->andWhere(
-				$queryBuilder->expr()->andX(
-					$queryBuilder->expr()->eq('mapgeocode', $queryBuilder->createNamedParameter(1, \PDO::PARAM_INT))
-				),
-				$queryBuilder->expr()->orX(
-					$queryBuilder->expr()->andX(
-						$queryBuilder->expr()->eq('latitude', $queryBuilder->createNamedParameter('0.0', \PDO::PARAM_STR)),
-						$queryBuilder->expr()->eq('longitude', $queryBuilder->createNamedParameter('0.0', \PDO::PARAM_STR))
-					),
-					$queryBuilder->expr()->andX(
-						$queryBuilder->expr()->eq('latitude', $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)),
-						$queryBuilder->expr()->eq('longitude', $queryBuilder->createNamedParameter('', \PDO::PARAM_STR))
-					),
-					$queryBuilder->expr()->andX(
-						$queryBuilder->expr()->isNull('latitude', $queryBuilder->createNamedParameter(NULL, \PDO::PARAM_NULL)),
-						$queryBuilder->expr()->isNull('longitude', $queryBuilder->createNamedParameter(NULL, \PDO::PARAM_NULL))
-					)
-				)
-				
-		);
-		$result = $queryBuilder->execute()->fetchAll();
-		return $result;
-	}
-
 
 
 
