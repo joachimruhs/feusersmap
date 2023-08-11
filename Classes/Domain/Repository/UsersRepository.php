@@ -343,6 +343,40 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         return $newResult;
     }
 
+	/* function getSortedCategoriesOfFeUser
+	 * 	
+	 * @param int $feUserUid
+	 * @param string $usergroup
+	 *
+	 * @return string
+	 */
+    public function getSortedCategoriesOfFeUser($feUserUid, $usergroup)
+    {
+        $userGroups = explode(',', $usergroup);
+        for ($i = 0; $i < count($userGroups); $i++) {
+    		$queryBuilder = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class)
+    			->getQueryBuilderForTable('fe_groups');
+    		$queryBuilder->from('fe_groups', 'g');
+            $queryBuilder->select('g.title')
+            ->from('fe_groups');
+            $queryBuilder->where(
+                $queryBuilder->expr()->eq(
+                    'g.uid',
+                    $queryBuilder->createNamedParameter(
+                        $userGroups[$i],
+                        \PDO::PARAM_INT
+                    )
+                )
+            );		
+            $result =  $queryBuilder->execute()->fetchAll();
+            if ($i == 0)
+                $categories = $result[0]['title'];
+            else 
+                $categories .= ', ' . $result[0]['title'];
+        }
+        return $categories;
+    }
+    
 
 	/* not used yet
 	 * 	
