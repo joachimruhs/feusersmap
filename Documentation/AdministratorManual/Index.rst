@@ -173,6 +173,25 @@ initialMapCoordinates
         48,8
 
 
+useGroupLeafletmapicons
+"""""""""""""""""""""""
+
+.. container:: table-row
+
+   Property
+        useGroupLeafletmapicons
+
+   Data type
+         boolean
+
+   Description
+         If set, enables the clustering of locations
+
+   Default
+        1
+
+
+
 enableMarkerClusterer
 """""""""""""""""""""
 
