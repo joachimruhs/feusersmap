@@ -11,7 +11,7 @@ What does it do
 Openstreetmaps with radial search and fe_groups.
 Show the results in responsive maps.
 
-#### Plugin map
+#### Plugin map with spiderfier
 ![Map](Documentation/Images/Introduction/mapSearch.png "Map")
 
 
