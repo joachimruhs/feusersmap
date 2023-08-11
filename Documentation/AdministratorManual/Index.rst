@@ -42,9 +42,10 @@ When everything is ok - test it...
 
 Inserting data
 ^^^^^^^^^^^^^^
-In TYPO3 list module select page Data. First insert some sys_categories.
-Then you can insert some tt_address data records. You have to insert the coordinates. If you don't insert some icon, the extension uses a default icon for the 
-POI's.
+In TYPO3 list module select page Data. First insert some usergroups.
+Then you can insert some fe_users. If the field mapgeocode is set, the extension tries to get the coordinates. If that fails, the field mapgeocode is set to 0.
+If you don't insert some mapicon, the extension uses a default icon for the 
+marker.
 
 When everything is done you can start a search in frontend.
 
