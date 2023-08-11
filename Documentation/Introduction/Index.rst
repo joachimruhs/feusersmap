@@ -39,6 +39,7 @@ Screenshots
 	:width: 500px
 	:alt: Map View
 
+**InfoWindow (MapInfoWindow)** 
 
 .. image:: ../Images/Introduction/infoWindow.png
 	:width: 500px
