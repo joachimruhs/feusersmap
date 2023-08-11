@@ -33,7 +33,7 @@ Screenshots
 ^^^^^^^^^^^
 
 
-**Feusersmap (Map) result** 
+**Feusersmap (Map) result with spiderfier** 
 
 .. image:: ../Images/Introduction/mapSearch.png
 	:width: 500px
