@@ -42,7 +42,7 @@ When everything is ok - test it...
 
 Inserting data
 ^^^^^^^^^^^^^^
-In TYPO3 list module select page Data. First insert some usergroups.
+In TYPO3 list module select the page of of general storage pid. First insert some usergroups.
 Then you can insert some fe_users. If the field mapgeocode is set, the extension tries to get the coordinates. If that fails, the field mapgeocode is set to 0.
 If you don't insert some mapicon, the extension uses a default icon for the 
 marker.
