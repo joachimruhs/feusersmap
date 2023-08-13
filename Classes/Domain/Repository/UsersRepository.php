@@ -369,10 +369,7 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 )
             );		
             $result =  $queryBuilder->execute()->fetchAll();
-            if ($i == 0)
-                $categories = $result[0]['title'];
-            else 
-                $categories .= ', ' . $result[0]['title'];
+                $categories[] = $result[0]['title'];
         }
         return $categories;
     }

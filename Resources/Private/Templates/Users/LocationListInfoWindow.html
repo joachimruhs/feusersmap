@@ -6,53 +6,33 @@ info = '<div class="infoWindow clearfix">';
     info += '<div class="content">';
     info += '<table><tr>';
 
-        <f:if condition="{location.images] > ''">
-            info += '<td><div class="image">';
-            <f:for each="{location.images}" as="image">
-                info += '<img class="image" src="/fileadmin/{image.identifier}"  width="50" alt=""/><br />';
-            </f:for>
-            info += '<div></td>';
-        </f:if>
-        info += '</td><td class="text">';
-        info += '<f:link.page pageUid="{settings.detailsPageId}" additionalParams="{tx_feusersmap_details: {action: 'details', locationUid: '{location.uid}'}}" >{location.first_name} {location.name}</f:link.page>';
-    //	info += '<a href="?id={settings.detailsPageId}&tx_feusersmap_map[action]=show&tx_feusersmap_map[locationUid]={location.uid}"><strong>{location.name}</strong></a>';
-        info += "<div class='categories'>{location.categories}</div>";
-        info += '<div><f:link.typolink parameter="{location.www}"></f:link.typolink></div>';
-        info += "<div><f:format.raw>{location.infoWindowAddress}</f:format.raw></div>";
-    //	info += "<div>{location.address}</div>";
-        info += "<div>{location.zip} {location.city}</div>";
-        info += "<div>{location.phone}</div>";
-        info += '<div><f:format.raw>{location.infoWindowDescription}</f:format.raw></div>';
-        info += '</td></tr></table>';
+    <f:if condition="{location.images] > ''">
+        info += '<td><div class="image">';
+        <f:for each="{location.images}" as="image">
+            info += '<img class="image" src="/fileadmin/{image.identifier}"  width="50" alt=""/><br />';
+        </f:for>
+        info += '<div></td>';
+    </f:if>
+    info += '</td><td class="text">';
+    info += '<f:link.page pageUid="{settings.detailsPageId}" additionalParams="{tx_feusersmap_details: {action: 'details', locationUid: '{location.uid}'}}" >{location.first_name} {location.name}</f:link.page>';
+//	info += '<a href="?id={settings.detailsPageId}&tx_feusersmap_map[action]=show&tx_feusersmap_map[locationUid]={location.uid}"><strong>{location.name}</strong></a>';
+//  info += "<div class='categories'>{location.categories}</div>";
+    info += '<div><f:link.typolink parameter="{location.www}"></f:link.typolink></div>';
+    info += "<div><f:format.raw>{location.infoWindowAddress}</f:format.raw></div>";
+
+    info += '<table>';
+    <f:for each="{location.categories}" as="category" iteration="catIter">
+        info += '<tr><td>{category}</td></tr>';
+    </f:for>
+    info += '</table>';
+
+//	info += "<div>{location.address}</div>";
+    info += "<div>{location.zip} {location.city}</div>";
+    info += "<div>{location.phone}</div>";
+    info += '<div><f:format.raw>{location.infoWindowDescription}</f:format.raw></div>';
+    info += '</td></tr></table>';
     info += '</div>';
 info += '</div>';
-
-
-<f:comment>
-info = '<div class="infoWindow clearfix">';
-    info += '<div class="content">';
-        <f:if condition="{location.images] > ''">
-            info += '<div class="image">';
-            <f:for each="{location.images}" as="image">
-                info += '<img class="image" src="/fileadmin/{image.identifier}"  width="50" alt=""/><br />';
-            </f:for>
-            info += '</div>';
-        </f:if>
- 
-    info += '<div class="text">';
-        info += '<f:link.page pageUid="{settings.detailsPageId}" additionalParams="{tx_feusersmap_details: {action: 'details', locationUid: '{location.uid}'}}" >{location.first_name} {location.name}</f:link.page>';
-    //	info += '<a href="?id={settings.detailsPageId}&tx_feusersmap_map[action]=show&tx_feusersmap_map[locationUid]={location.uid}"><strong>{location.name}</strong></a>';
-        info += "<div class='categories'>{location.categories}</div>";
-        info += '<div><f:link.typolink parameter="{location.www}"></f:link.typolink></div>';
-        info += "<div><f:format.raw>{location.infoWindowAddress}</f:format.raw></div>";
-    //	info += "<div>{location.address}</div>";
-        info += "<div>{location.zip} {location.city}</div>";
-        info += "<div>{location.phone}</div>";
-        info += '<div><f:format.raw>{location.infoWindowDescription}</f:format.raw></div>';
-    info += '</div>';
-info += '</div>';
-</f:comment>
-
 
 marker[{i}].bindPopup(info, {maxWidth: "400"}).openPopup();
 
