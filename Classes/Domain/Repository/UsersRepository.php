@@ -71,34 +71,6 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 			)
 		);			
 		$result = $queryBuilder->execute()->fetchAll();
-
-        
-		$queryBuilder = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class)
-			->getQueryBuilderForTable('fe_users');
-
-		$queryBuilder->from('fe_users', 'a');
-		$queryBuilder->selectLiteral(
-			'a.uid, 
-			 (SELECT GROUP_CONCAT(g.title ORDER BY g.title SEPARATOR \', \') from fe_groups g
-            	where FIND_IN_SET(g.uid, a.usergroup)
-                and a.uid = ' . $userUid .
-                
-                ') as categories
-        ')
-		->where(
-			$queryBuilder->expr()->eq(
-				'uid',
-				$queryBuilder->createNamedParameter($userUid, \PDO::PARAM_INT)
-			)
-		);			
-        
-        
-
-		$result1 = $queryBuilder->execute()->fetchAll();
-        $result[0]['categories'] = $result1[0]['categories'];        
-
-
-
     	return $result;		
     }    
 
@@ -303,8 +275,6 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 		$queryBuilder->selectLiteral(
 			'distinct a.*', '(acos(sin(' . floatval($lat * M_PI / 180) . ') * sin(latitude * ' . floatval(M_PI / 180) . ') + cos(' . floatval($lat * M_PI / 180) . ') *
 			cos(latitude * ' . floatval(M_PI / 180) . ') * cos((' . floatval($lon) . ' - longitude) * ' . floatval(M_PI / 180) . '))) * 6370 as `distance`
-			, (SELECT GROUP_CONCAT(g.title ORDER BY g.title SEPARATOR \', \') from fe_groups g
-            	where FIND_IN_SET(g.uid, a.usergroup) ) as categories
         ');
 
 		$queryBuilder->orderBy('distance');

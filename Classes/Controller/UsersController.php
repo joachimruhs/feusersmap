@@ -304,6 +304,7 @@ max 1 call/sec
 
         $locationUid = $this->request->getArgument('locationUid');
         $user = $this->usersRepository->getUser($locationUid);
+        $user[0]['categories'] = $this->usersRepository->getSortedCategoriesOfFeUser($user[0]['uid'], $user[0]['usergroup']);
 		$images = $this->usersRepository->getImages($locationUid, 'fe_users');
 
         $this->view->assign('images', $images);
