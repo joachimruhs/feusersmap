@@ -17,7 +17,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
             <img src="/fileadmin/{image.identifier}"  width="50" alt=""/><br />
         </f:for>
     </f:if>
-    <f:for each="{user.0.categories}" as="category" iteration="catIter">
+    <f:for each="{user.categories}" as="category" iteration="catIter">
         <div>{category}</div>
     </f:for>
     {user.description}
