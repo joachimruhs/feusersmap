@@ -276,10 +276,21 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 			'distinct a.*', '(acos(sin(' . floatval($lat * M_PI / 180) . ') * sin(latitude * ' . floatval(M_PI / 180) . ') + cos(' . floatval($lat * M_PI / 180) . ') *
 			cos(latitude * ' . floatval(M_PI / 180) . ') * cos((' . floatval($lon) . ' - longitude) * ' . floatval(M_PI / 180) . '))) * 6370 as `distance`
         ');
-
 		$queryBuilder->orderBy('distance');
 		$queryBuilder->addOrderBy('name', 'asc');
         $queryBuilder->having('`distance` <= ' . $queryBuilder->createNamedParameter($radius, \PDO::PARAM_INT));
+        $queryBuilder->where(
+			$queryBuilder->expr()->eq(
+				'pid',
+				$queryBuilder->createNamedParameter($storagePid, \PDO::PARAM_INT)
+			)
+		);
+        $queryBuilder->andWhere(
+            $queryBuilder->expr()->andX(
+					$queryBuilder->expr()->gt('a.latitude', $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)),
+					$queryBuilder->expr()->gt('a.longitude', $queryBuilder->createNamedParameter('', \PDO::PARAM_STR))
+				),
+            );
 
 		$result =  $queryBuilder->execute()->fetchAll();
         if ($categoryList)

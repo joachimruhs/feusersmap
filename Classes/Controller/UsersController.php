@@ -235,7 +235,8 @@ max 1 call/sec
         $categories = $this->groupsRepository->findAllCategories($this->conf['storagePid']);
 
         // get the parents of subgroup        
-		for($i = 0; $i < count($categories); $i++) {
+		$arr = [];
+        for($i = 0; $i < count($categories); $i++) {
             $arr[$i]['parent'] = 0;
         }
 		for($i = 0; $i < count($categories); $i++) {
