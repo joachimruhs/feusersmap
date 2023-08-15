@@ -217,7 +217,12 @@ max 1 call/sec
 				$locations[$i]['infoWindowDescription'] = str_replace(array("\r\n", "\r", "\n"), '<br />', htmlspecialchars($description, ENT_QUOTES));
 
                 if ($this->settings['useGroupLeafletmapicons']) {
-                    $locations[$i]['leafletmapicon'] = $this->groupsRepository->getLeafletIcon($locations[$i]['usergroup']);
+                    if (count($this->_GP['categories']) == 1) {
+                        // get the lefletMapIcon of the usergroup if only one category is selected   
+                        $locations[$i]['leafletmapicon'] = $this->groupsRepository->getLeafletIcon($this->_GP['categories'][0]);
+                    } else {
+                        $locations[$i]['leafletmapicon'] = $this->groupsRepository->getLeafletIcon($locations[$i]['usergroup']);
+                    }
                 }
 				if ($locations[$i]['image'] > 0) {
 						$images = $this->usersRepository->getImages($locations[$i]['uid'], 'fe_users');
