@@ -61,7 +61,9 @@ Otherwise your changes will be overwritten the next time you save the extension 
 	</div>	
 
     <form method="post" action='<f:uri.action action="map" pluginName="map" />' name="searchform">
-        <f:render section="categoryList" arguments="{_all}" />
+        <f:if condition="{settings.showFilter} > 0">
+            <f:render section="categoryList" arguments="{_all}" />
+        </f:if>
         <f:section name="categoryList">
             <ul>
                 <f:for each="{categories}" as="category">
