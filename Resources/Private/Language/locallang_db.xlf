@@ -30,6 +30,18 @@
 			<trans-unit id="tx_feusersmap_details.description" resname="tx_feusersmap_details.description">
 				<source></source>
 			</trans-unit>
+			<trans-unit id="tx_feusersmap.pi_flexform.sheetGeneral" resname="tx_feusersmap.pi_flexform.sheetGeneral">
+				<source>General</source>
+			</trans-unit>
+			<trans-unit id="tx_feusersmap.pi_flexform.showFilter" resname="tx_feusersmap.pi_flexform.showFilter">
+				<source>Show Filter</source>
+			</trans-unit>
+			<trans-unit id="tx_feusersmap.pi_flexform.showCustomGroups" resname="tx_feusersmap.pi_flexform.showCustomGroups">
+				<source>Show Custom Groups</source>
+			</trans-unit>
+			<trans-unit id="tx_feusersmap.pi_flexform.singlePageUid" resname="tx_feusersmap.pi_flexform.singlePageUid">
+				<source>Page for Single View</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

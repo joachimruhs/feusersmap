@@ -232,7 +232,11 @@ max 1 call/sec
                 $locations[$i]['categories'] = $this->usersRepository->getSortedCategoriesOfFeUser($locations[$i]['uid'], $locations[$i]['usergroup']);
 			}
 		}
-        $categories = $this->groupsRepository->findAllCategories($this->conf['storagePid']);
+        //$categories = $this->groupsRepository->findAllCategories($this->conf['storagePid']);
+		//new: get categories/usergroups from settings in backend form
+		$pidsFromBackendForm = $this->settings['categories'];
+		$definedPids = explode (",", str_replace("fe_groups_","",$pidsFromBackendForm));
+		$categories = $this->groupsRepository->findDefinedCategories($definedPids);
 
         // get the parents of subgroup        
 		$arr = [];

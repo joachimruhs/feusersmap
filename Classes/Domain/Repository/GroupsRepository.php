@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace WSR\Feusersmap\Domain\Repository;
 
+
+use Doctrine\DBAL\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
@@ -159,6 +161,34 @@ class GroupsRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     	return $result;		
 	}
 
+	/*
+	 *	find categories defined in backend form
+	 *
+	 *	@param array $definedPids
+	 *	@return array
+	 */	
+	function findDefinedCategories($definedPids) {
+		$queryBuilder = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class)
+			->getQueryBuilderForTable('fe_groups');
+
+		$queryBuilder->select('*')
+		->from('fe_groups')
+		->where(
+			$queryBuilder->expr()->in(
+				'uid',
+				$queryBuilder->createNamedParameter($definedPids, Connection::PARAM_INT_ARRAY)
+			)
+		);			
+		$queryBuilder->andWhere(
+					$queryBuilder->expr()->andX(
+						$queryBuilder->expr()->eq('hidden', $queryBuilder->createNamedParameter('', \PDO::PARAM_INT)),
+						$queryBuilder->expr()->eq('deleted', $queryBuilder->createNamedParameter('', \PDO::PARAM_INT))
+					)
+			);
+		$queryBuilder->orderBy('title');
+		$result = $queryBuilder->execute()->fetchAll();
+		return $result;		
+	}
 
 
 }
