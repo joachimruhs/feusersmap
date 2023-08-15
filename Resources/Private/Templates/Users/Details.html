@@ -20,13 +20,13 @@ Otherwise your changes will be overwritten the next time you save the extension 
     <f:for each="{user.0.categories}" as="category" iteration="catIter">
         <div>{category}</div>
     </f:for>
-    {user.0.description}
+    {user.description}
     <br />
     
-    {user.0.first_name} {user.0.name}
+    {user.first_name} {user.name}
     <br />
-    {user.0.address}
+    {user.address}
     <br />
-    {user.0.zip} {user.0.city}
+    {user.zip} {user.city}
 </f:section>
 </html>

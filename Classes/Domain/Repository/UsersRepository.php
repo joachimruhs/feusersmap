@@ -71,7 +71,7 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 			)
 		);			
 		$result = $queryBuilder->execute()->fetchAll();
-    	return $result;		
+    	return $result[0];		
     }    
 
 	/*
