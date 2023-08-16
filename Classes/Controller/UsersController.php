@@ -360,6 +360,7 @@ max 1 call/sec
 			
 			} else {
 				$out .= "marker[$i] = L.marker([$lat, $lon]).addTo(markerGroup);
+                    oms.addMarker(marker[" . $i ."]);  // <-- here
 				";
 			}
 
