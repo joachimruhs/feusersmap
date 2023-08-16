@@ -14,7 +14,7 @@ info = '<div class="infoWindow clearfix">';
         info += '<div></td>';
     </f:if>
     info += '</td><td class="text">';
-    info += '<f:link.page pageUid="{settings.detailsPageId}" additionalParams="{tx_feusersmap_details: {action: 'details', locationUid: '{location.uid}'}}" >{location.first_name} {location.name}</f:link.page>';
+    info += '<f:link.page pageUid="{settings.detailsPageId}" additionalParams="{tx_feusersmap_details: {action: 'details', locationUid: '{location.uid}'}}" >{location.first_name} {location.last_name}</f:link.page>';
 //	info += '<a href="?id={settings.detailsPageId}&tx_feusersmap_map[action]=show&tx_feusersmap_map[locationUid]={location.uid}"><strong>{location.name}</strong></a>';
     <f:for each="{location.categories}" as="category" iteration="catIter">
         info += '<div>{category}</div>';
