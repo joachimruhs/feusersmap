@@ -24,6 +24,15 @@ On a page 'feusersmap' or on your root page insert 'Typoscript Include static' (
 With the constant editor insert the desired settings of the extension like storage Pid, your page ID's, 
 jQuery options, path to templates etc.
 
+On page 'feusersmap' insert the plugin map and set the plugin options.
+Insert some custom groups for the filter.
+
+**Feusersmap plugin options** 
+
+.. image:: ../Images/AdministratorManual/pluginOptions.png
+	:width: 500px
+	:alt: Plugin Options
+
 
 The data of fe_users and fe_groups is stored in Frontend Users. Insert in the constant editor
 the correct "Default storage PID" of the fe_users records.
