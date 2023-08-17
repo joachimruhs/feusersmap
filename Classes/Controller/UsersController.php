@@ -99,8 +99,10 @@ max 1 call/sec
 
 		$addressData = $this->get_webpage($apiURL);
         $addressData = $addressData ?? '{}';
-        if ($addressData == '{}') return $latLon;
-		
+        if ($addressData == '{}') {
+            $this->flashMessage('Error in geocoding by nominatim.openstreetmap.org!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
+            return $latLon;
+        }
 		$coordinates[1] = json_decode($addressData)[0]->lat;
 		$coordinates[0] = json_decode($addressData)[0]->lon;
 
