@@ -33,6 +33,9 @@ plugin.tx_feusersmap {
 		# cat=plugin.tx_feusersmap/leafletmaps; type=string; label=Search Address: Search Address
 		searchAddress = Köln
 
+		# cat=plugin.tx_feusersmap/leafletmaps; type=int; label=Search Address: Search Address
+		searchRadius = 300
+
 		# cat=plugin.tx_feusersmap/leafletmaps; type=int; label=Use fe_groupleafletmapicons: Use the leafletmapicon from fe_groups
 		useGroupLeafletmapicons = 1
 

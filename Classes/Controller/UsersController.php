@@ -175,7 +175,7 @@ max 1 call/sec
         if (strlen($requestArguments['address']) == 0)
         $requestArguments['address'] = $this->settings['searchAddress'];
         $requestArguments['country'] = $requestArguments['country'] ?? 'Deutschland';
-        $requestArguments['radius'] = $requestArguments['radius'] ?? 500;
+        $requestArguments['radius'] = $requestArguments['radius'] ?? $this->settings['searchRadius'];
           
         $theAddress['address'] = $requestArguments['address'];
         $theAddress['country'] = $requestArguments['country'];
@@ -190,7 +190,7 @@ max 1 call/sec
         if(is_array($locations) && count($locations) == 0) {
 			$this->flashMessage('Feusersmap', 'No locations found in radius ' . $requestArguments['radius'] . ' km',
 					\TYPO3\CMS\Core\Messaging\FlashMessage::INFO);
-            $requestArguments['radius'] = 500;
+            $requestArguments['radius'] = $this->settings['searchRadius'];
     		$locations = $this->usersRepository->findLocationsInRadius($latLon, $requestArguments['radius'], $this->_GP['categories'], $this->conf['storagePid']);
 
 // krexx($this->request->getQueryParams());
