@@ -276,7 +276,7 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 			'distinct a.*', '(acos(sin(' . floatval($lat * M_PI / 180) . ') * sin(latitude * ' . floatval(M_PI / 180) . ') + cos(' . floatval($lat * M_PI / 180) . ') *
 			cos(latitude * ' . floatval(M_PI / 180) . ') * cos((' . floatval($lon) . ' - longitude) * ' . floatval(M_PI / 180) . '))) * 6370 as `distance`,
         
-        (SELECT  GROUP_CONCAT(g.title ORDER BY FIND_IN_SET(g.uid, a.usergroup) SEPARATOR \', \') from fe_groups g
+        (SELECT  GROUP_CONCAT(g.title ORDER BY FIND_IN_SET(g.uid, a.usergroup) SEPARATOR \'<br />\') from fe_groups g
             	where FIND_IN_SET(g.uid, a.usergroup)
                 ) as categories
                  
