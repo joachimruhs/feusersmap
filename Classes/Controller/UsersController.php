@@ -231,7 +231,8 @@ max 1 call/sec
     					$locations[$i]['images'] =	$images;				
 
 				}
-                $locations[$i]['categories'] = $this->usersRepository->getSortedCategoriesOfFeUser($locations[$i]['uid'], $locations[$i]['usergroup']);
+// not used yet
+//                $locations[$i]['categories'] = $this->usersRepository->getSortedCategoriesOfFeUser($locations[$i]['uid'], $locations[$i]['usergroup']);
 			}
 		}
         //$categories = $this->groupsRepository->findAllCategories($this->conf['storagePid']);
