@@ -182,6 +182,42 @@ initialMapCoordinates
    Default
         48,8
 
+searchAddress
+"""""""""""""
+
+.. container:: table-row
+
+   Property
+        searchAddress
+
+   Data type
+         string
+
+   Description
+         Initial search address
+
+   Default
+        Köln
+
+searchAddress
+"""""""""""""
+
+.. container:: table-row
+
+   Property
+        searchRadius
+
+   Data type
+         int
+
+   Description
+         Initial search radius
+
+   Default
+        300
+
+
+
 
 useGroupLeafletmapicons
 """""""""""""""""""""""
