@@ -199,8 +199,8 @@ searchAddress
    Default
         Köln
 
-searchAddress
-"""""""""""""
+searchRadius
+""""""""""""
 
 .. container:: table-row
 
