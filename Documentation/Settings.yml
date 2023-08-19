@@ -5,9 +5,9 @@
 ---
 conf.py:
   copyright: 2023
-  project: FeusersmapM
-  version: 1.8
-  release: 1.8.1
+  project: Feusersmap
+  version: 2.0
+  release: 2.0.0
   latex_documents:
   - - Index
     - feusersmap.tex
