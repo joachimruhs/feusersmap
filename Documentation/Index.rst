@@ -24,10 +24,10 @@ MyLeaflet
 		en
 
 	:Description:
-		Show Leaflet maps with tt_address data. The shown results can be limited by categories and search radius.
+		Show Leaflet maps with fe_users data. The shown results can be limited by fe_groups and search radius.
 
 	:Keywords:
-		tt_address, radial search, Leaflet maps
+		fe_users, radial search, Leaflet maps
 
 	:Copyright:
 		Joachim Ruhs
