@@ -20,7 +20,7 @@ Installation
 ^^^^^^^^^^^^
 Import the extension from TER (TYPO3 Extension Repository) like any other extension.
 
-On a page 'feusersmap' or on your root page insert 'Typoscript Include static' (from extension) FeUsersMap (feusersmap).
+On a page  'feusersmap' or on your root page insert 'Typoscript Include static' (from extension) FeUsersMap (feusersmap).
 With the constant editor insert the desired settings of the extension like storage Pid, your page ID's, 
 jQuery options, path to templates etc.
 
