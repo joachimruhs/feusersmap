@@ -22,10 +22,9 @@ What's new?
 ^^^^^^^^^^^
 
 Marker icon sizes can be set with the constant editor.
-Categories are sorted by field sorting.
-Localization of catgories and tt_address records implemented.
-Mapicon handling changed. The directories fileadmin/ext/feusersmap/Resources/Public/Icons are created if they don't exist.
-Insert here your mapIcons. These icons can then be selected in the fe_groups record (mapicon).
+Usergroups are sorted like the field usergroups of  fe_user record.
+Mapicon handling changed. The directories fileadmin/ext/feusersmap/Resources/Public/MapIcons are created if they don't exist.
+Insert here your own mapIcons. These icons can then be selected in the fe_groups record (mapicon).
 
 
 
