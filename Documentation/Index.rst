@@ -9,13 +9,13 @@
 .. _start:
 
 =============================================================
-MyLeaflet
+FeUsersMap
 =============================================================
 
 .. only:: html
 
 	:Classification:
-		myleaflet
+		feusersmap
 
 	:Version:
 		|release|
