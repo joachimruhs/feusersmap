@@ -103,7 +103,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
           markerArray.push(L.marker([lat, lon]));
 		}
 		info =  '';
-		info += addressName + "<br /> ";
+		info += "<f:format.raw>{user.first_name} {user.last_name}</f:format.raw>" + "<br /> ";
 
         <f:for each="{user.categories}" as="category" iteration="catIter">
             info += '<div>{category}</div>';
