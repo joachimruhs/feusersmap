@@ -104,6 +104,11 @@ Otherwise your changes will be overwritten the next time you save the extension 
 		}
 		info =  '';
 		info += addressName + "<br /> ";
+
+        <f:for each="{user.categories}" as="category" iteration="catIter">
+            info += '<div>{category}</div>';
+        </f:for>
+
 		info += "<div><f:format.raw><map:nl2br text="<f:format.raw>{user.address}</f:format.raw>" htmlSpecialChars="1"/></f:format.raw></div>";
 		info += "{user.zip} {user.city}";
 		info += "<div>{user.phone}</div>";
