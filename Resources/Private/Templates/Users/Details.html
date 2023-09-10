@@ -103,6 +103,14 @@ Otherwise your changes will be overwritten the next time you save the extension 
           markerArray.push(L.marker([lat, lon]));
 		}
 		info =  '';
+        <f:if condition="{images} > ''">
+            <f:for each="{images}" as="image">
+             info += '<img src="/fileadmin/{image.identifier}"  width="50" alt=""/><br />';
+            </f:for>
+        </f:if>
+
+
+
 		info += "<f:format.raw>{user.first_name} {user.last_name}</f:format.raw>" + "<br /> ";
 
         <f:for each="{user.categories}" as="category" iteration="catIter">
@@ -119,6 +127,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 		map.flyTo([lat, lon]);
 		map.fitBounds(group.getBounds());
+		markerArray[0].openPopup();
 
 	});	
 </script>
