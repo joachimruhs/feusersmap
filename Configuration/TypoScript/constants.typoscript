@@ -11,7 +11,7 @@ plugin.tx_feusersmap {
 		# cat=plugin.tx_feusersmap/javascript; type=boolean; label=Include jQuery core: Add jQuery core script. Turn it off (0), if jQuery is already added.
 		includejQueryCore = 0
 		# cat=plugin.tx_feusersmap/javascript; type=string; label=jQuery library
-		jQueryFile = EXT:feusersmap/Resources/Public/JavaScript/jquery-3.3.1.min.js
+		jQueryFile = EXT:feusersmap/Resources/Public/JavaScript/jquery-3.5.1.min.js
 
 
     }

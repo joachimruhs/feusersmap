@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace WSR\Feusersmap\Domain\Repository;
 
 
-use Doctrine\DBAL\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Extbase\Persistence\Generic\Query;
@@ -20,7 +20,7 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- * (c) 2023 Joachim Ruhs
+ * (c) 2024 Joachim Ruhs
  */
 
 /**
@@ -45,10 +45,10 @@ class GroupsRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 		->where(
 			$queryBuilder->expr()->eq(
 				'subgroup',
-				$queryBuilder->createNamedParameter($subgroup, \PDO::PARAM_INT)
+				$queryBuilder->createNamedParameter($subgroup, Connection::PARAM_INT)
 			)
 		);			
-		$result = $queryBuilder->execute()->fetchAll();
+		$result = $queryBuilder->executeQuery()->fetchAllAssociative();
     	return $result[0]['uid'];		
 	}
 
@@ -84,10 +84,10 @@ class GroupsRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 		->where(
 			$queryBuilder->expr()->eq(
 				'uid',
-				$queryBuilder->createNamedParameter($usergroup, \PDO::PARAM_INT)
+				$queryBuilder->createNamedParameter($usergroup, Connection::PARAM_INT)
 			)
 		);			
-		$result = $queryBuilder->execute()->fetchAll();
+		$result = $queryBuilder->executeQuery()->fetchAllAssociative();
     	return $result[0]['leafletmapicon'];		
 	}
 
@@ -113,18 +113,18 @@ class GroupsRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 		->where(
 			$queryBuilder->expr()->eq(
 				'uid_foreign',
-				$queryBuilder->createNamedParameter($userUid, \PDO::PARAM_INT)
+				$queryBuilder->createNamedParameter($userUid, Connection::PARAM_INT)
 			)
 		)
         -> andWhere (
     			$queryBuilder->expr()->eq(
     				'tablenames',
-    				$queryBuilder->createNamedParameter($tablenames, \PDO::PARAM_STR)
+    				$queryBuilder->createNamedParameter($tablenames, Connection::PARAM_STR)
     			)
         );			
         $queryBuilder->orderBy('identifier', 'asc');
 
-		$result = $queryBuilder->execute()->fetchAll();
+		$result = $queryBuilder->executeQuery()->fetchAllAssociative();
 
     	return $result;		
     }    
@@ -147,17 +147,17 @@ class GroupsRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 		->where(
 			$queryBuilder->expr()->eq(
 				'pid',
-				$queryBuilder->createNamedParameter($storagePid, \PDO::PARAM_INT)
+				$queryBuilder->createNamedParameter($storagePid, Connection::PARAM_INT)
 			)
 		);			
 		$queryBuilder->andWhere(
-					$queryBuilder->expr()->andX(
-						$queryBuilder->expr()->eq('hidden', $queryBuilder->createNamedParameter('', \PDO::PARAM_INT)),
-						$queryBuilder->expr()->eq('deleted', $queryBuilder->createNamedParameter('', \PDO::PARAM_INT))
+					$queryBuilder->expr()->and(
+						$queryBuilder->expr()->eq('hidden', $queryBuilder->createNamedParameter('', Connection::PARAM_INT)),
+						$queryBuilder->expr()->eq('deleted', $queryBuilder->createNamedParameter('', Connection::PARAM_INT))
 					)
             );
         $queryBuilder->orderBy('title');
-        $result = $queryBuilder->execute()->fetchAll();
+        $result = $queryBuilder->executeQuery()->fetchAllAssociative();
     	return $result;		
 	}
 
@@ -180,13 +180,13 @@ class GroupsRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 			)
 		);			
 		$queryBuilder->andWhere(
-					$queryBuilder->expr()->andX(
-						$queryBuilder->expr()->eq('hidden', $queryBuilder->createNamedParameter('', \PDO::PARAM_INT)),
-						$queryBuilder->expr()->eq('deleted', $queryBuilder->createNamedParameter('', \PDO::PARAM_INT))
+					$queryBuilder->expr()->and(
+						$queryBuilder->expr()->eq('hidden', $queryBuilder->createNamedParameter('', Connection::PARAM_INT)),
+						$queryBuilder->expr()->eq('deleted', $queryBuilder->createNamedParameter('', Connection::PARAM_INT))
 					)
 			);
 		$queryBuilder->orderBy('title');
-		$result = $queryBuilder->execute()->fetchAll();
+		$result = $queryBuilder->executeQuery()->fetchAllAssociative();
 		return $result;		
 	}
 

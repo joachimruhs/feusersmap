@@ -4,13 +4,13 @@ defined('TYPO3') || die();
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
     'Feusersmap',
     'Map',
-    'Map'
+    'Feusersmap(Map)'
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
     'Feusersmap',
     'Details',
-    'Details'
+    'Feusersmap(Details)'
 );
 
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['feusersmap_map']

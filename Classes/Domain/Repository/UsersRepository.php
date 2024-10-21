@@ -10,6 +10,7 @@ use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Extbase\Persistence\Generic\Query;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
+use TYPO3\CMS\Core\Database\Connection;
 
 
 /**
@@ -67,10 +68,10 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 		->where(
 			$queryBuilder->expr()->eq(
 				'uid',
-				$queryBuilder->createNamedParameter($userUid, \PDO::PARAM_INT)
+				$queryBuilder->createNamedParameter($userUid, Connection::PARAM_INT)
 			)
 		);			
-		$result = $queryBuilder->execute()->fetchAll();
+		$result = $queryBuilder->executeQuery()->fetchAllAssociative();
     	return $result[0];		
     }    
 
@@ -95,18 +96,18 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 		->where(
 			$queryBuilder->expr()->eq(
 				'uid_foreign',
-				$queryBuilder->createNamedParameter($userUid, \PDO::PARAM_INT)
+				$queryBuilder->createNamedParameter($userUid, Connection::PARAM_INT)
 			)
 		)
         -> andWhere (
     			$queryBuilder->expr()->eq(
     				'tablenames',
-    				$queryBuilder->createNamedParameter($tablenames, \PDO::PARAM_STR)
+    				$queryBuilder->createNamedParameter($tablenames, Connection::PARAM_STR)
     			)
         );			
         $queryBuilder->orderBy('identifier', 'asc');
 
-		$result = $queryBuilder->execute()->fetchAll();
+		$result = $queryBuilder->executeQuery()->fetchAllAssociative();
 
     	return $result;		
 
@@ -147,7 +148,7 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 		->where(
 			$queryBuilder->expr()->eq(
 				'uid',
-				$queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+				$queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
 			)
 		)
         ->set('latitude', $lat)
@@ -173,7 +174,7 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 		->where(
 			$queryBuilder->expr()->eq(
 				'uid',
-				$queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+				$queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
 			)
 		)
         ->set('mapgeocode', $mapgeocode)
@@ -205,32 +206,32 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 				'a.pid',
 				$queryBuilder->createNamedParameter(
 					$arrayOfPids,
-					\Doctrine\DBAL\Connection::PARAM_INT_ARRAY
+					Connection::PARAM_INT_ARRAY
 				)
 			)
 		);		
 
 		$queryBuilder->andWhere(
-				$queryBuilder->expr()->andX(
-					$queryBuilder->expr()->eq('mapgeocode', $queryBuilder->createNamedParameter(1, \PDO::PARAM_INT))
+				$queryBuilder->expr()->and(
+					$queryBuilder->expr()->eq('mapgeocode', $queryBuilder->createNamedParameter(1, Connection::PARAM_INT))
 				),
-				$queryBuilder->expr()->orX(
-					$queryBuilder->expr()->andX(
-						$queryBuilder->expr()->eq('latitude', $queryBuilder->createNamedParameter('0.0', \PDO::PARAM_STR)),
-						$queryBuilder->expr()->eq('longitude', $queryBuilder->createNamedParameter('0.0', \PDO::PARAM_STR))
+				$queryBuilder->expr()->or(
+					$queryBuilder->expr()->and(
+						$queryBuilder->expr()->eq('latitude', $queryBuilder->createNamedParameter('0.0', Connection::PARAM_STR)),
+						$queryBuilder->expr()->eq('longitude', $queryBuilder->createNamedParameter('0.0', Connection::PARAM_STR))
 					),
-					$queryBuilder->expr()->andX(
-						$queryBuilder->expr()->eq('latitude', $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)),
-						$queryBuilder->expr()->eq('longitude', $queryBuilder->createNamedParameter('', \PDO::PARAM_STR))
+					$queryBuilder->expr()->and(
+						$queryBuilder->expr()->eq('latitude', $queryBuilder->createNamedParameter('', Connection::PARAM_STR)),
+						$queryBuilder->expr()->eq('longitude', $queryBuilder->createNamedParameter('', Connection::PARAM_STR))
 					),
-					$queryBuilder->expr()->andX(
-						$queryBuilder->expr()->isNull('latitude', $queryBuilder->createNamedParameter(NULL, \PDO::PARAM_NULL)),
-						$queryBuilder->expr()->isNull('longitude', $queryBuilder->createNamedParameter(NULL, \PDO::PARAM_NULL))
+					$queryBuilder->expr()->and(
+						$queryBuilder->expr()->isNull('latitude', $queryBuilder->createNamedParameter(NULL, Connection::PARAM_NULL)),
+						$queryBuilder->expr()->isNull('longitude', $queryBuilder->createNamedParameter(NULL, Connection::PARAM_NULL))
 					)
 				)
 				
 		);
-		$result = $queryBuilder->execute()->fetchAll();
+		$result = $queryBuilder->executeQuery()->fetchAllAssociative();
 		return $result;
 	}
 
@@ -284,21 +285,21 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         ');
 		$queryBuilder->orderBy('distance');
 		$queryBuilder->addOrderBy('name', 'asc');
-        $queryBuilder->having('`distance` <= ' . $queryBuilder->createNamedParameter($radius, \PDO::PARAM_INT));
+        $queryBuilder->having('`distance` <= ' . $queryBuilder->createNamedParameter($radius, Connection::PARAM_INT));
         $queryBuilder->where(
 			$queryBuilder->expr()->eq(
 				'pid',
-				$queryBuilder->createNamedParameter($storagePid, \PDO::PARAM_INT)
+				$queryBuilder->createNamedParameter($storagePid, Connection::PARAM_INT)
 			)
 		);
         $queryBuilder->andWhere(
-            $queryBuilder->expr()->andX(
-					$queryBuilder->expr()->gt('a.latitude', $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)),
-					$queryBuilder->expr()->gt('a.longitude', $queryBuilder->createNamedParameter('', \PDO::PARAM_STR))
+            $queryBuilder->expr()->and(
+					$queryBuilder->expr()->gt('a.latitude', $queryBuilder->createNamedParameter('', Connection::PARAM_STR)),
+					$queryBuilder->expr()->gt('a.longitude', $queryBuilder->createNamedParameter('', Connection::PARAM_STR))
 				),
             );
 
-		$result =  $queryBuilder->execute()->fetchAll();
+		$result =  $queryBuilder->executeQuery()->fetchAllAssociative();
         if ($categoryList)
             $result = $this->filterCategories($result, $categoryList);
 		return $result;
@@ -351,11 +352,11 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                     'g.uid',
                     $queryBuilder->createNamedParameter(
                         $userGroups[$i],
-                        \PDO::PARAM_INT
+                        Connection::PARAM_INT
                     )
                 )
             );		
-            $result =  $queryBuilder->execute()->fetchAll();
+            $result =  $queryBuilder->executeQuery()->fetchAllAssociative();
                 $categories[] = $result[0]['title'];
         }
         return $categories;
@@ -403,14 +404,14 @@ class UsersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             for ($i = 0; $i < count($arrayOfCategories); $i++) {
 
     			$queryBuilder->orWhere(
-                    $expression->andX(
+                    $expression->and(
                         $expression->eq(
                         'g.uid',
-                        $queryBuilder->createNamedParameter($arrayOfCategories[$i], \PDO::PARAM_INT)
+                        $queryBuilder->createNamedParameter($arrayOfCategories[$i], Connection::PARAM_INT)
                         ),
                         $expression->in(
                         'g.uid',
-                        $queryBuilder->createNamedParameter($arrayOfCategories, \Doctrine\DBAL\Connection::PARAM_INT_ARRAY)
+                        $queryBuilder->createNamedParameter($arrayOfCategories, Connection::PARAM_INT_ARRAY)
                         )
                     )
                 );

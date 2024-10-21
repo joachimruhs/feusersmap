@@ -32,11 +32,18 @@ class UsersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		$this->conf['storagePid'] = $configuration['persistence']['storagePid'];
         
 		/** @var TypoScriptService $typoScriptService */
+/*
    		$frontend = $GLOBALS['TSFE'];
 
 		$typoScriptService = GeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\TypoScriptService');
 		$this->configuration = $typoScriptService->convertTypoScriptArrayToPlainArray($frontend->tmpl->setup['plugin.']['tx_feusersmap.']);
-	
+*/	
+//        $fullTypoScript = $this->request->getAttribute('frontend.typoscript')->getSetupArray()['plugin.']['tx_feusersmap.'] ;
+//	    $this->configuration = $this->request->getAttribute('frontend.typoscript')->getSetupArray()['plugin.']['tx_feusersmap.'];
+
+//		$this->settings = $this->configuration['settings.'];
+//		$this->conf['storagePid'] = $this->configuration['persistence.']['storagePid'];
+
     }
 
 
@@ -96,13 +103,13 @@ max 1 call/sec
 */
 
 		$apiURL = "https://nominatim.openstreetmap.org/search?q=$address,+$country&format=json&limit=1";
-
 		$addressData = $this->get_webpage($apiURL);
         $addressData = $addressData ?? '{}';
-        if ($addressData == '{}') {
-            $this->flashMessage('Error in geocoding by nominatim.openstreetmap.org!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
+        if ($addressData == '{}' || $addressData == '[]') {
+            $this->flashMessage('Error in geocoding by nominatim.openstreetmap.org!', '', \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR);
             return $latLon;
         }
+
 		$coordinates[1] = json_decode($addressData)[0]->lat;
 		$coordinates[0] = json_decode($addressData)[0]->lon;
 
@@ -149,7 +156,11 @@ max 1 call/sec
      */
     public function mapAction(): \Psr\Http\Message\ResponseInterface
     {
-
+        $fullTypoScript = $this->request->getAttribute('frontend.typoscript')->getSetupArray()['plugin.']['tx_feusersmap.'] ;
+	    $this->configuration = $this->request->getAttribute('frontend.typoscript')->getSetupArray()['plugin.']['tx_feusersmap.'];
+//krexx($this->configuration);
+        
+    
 		$iconPath = 'fileadmin/ext/feusersmap/Resources/Public/MapIcons/';
 
    		if (!is_dir(Environment::getPublicPath() . '/' . $iconPath)) {
@@ -161,7 +172,7 @@ max 1 call/sec
                 $sourceDir = 'typo3conf/ext/feusersmap/Resources/Public/';
             }
             $fileSystem->mirror($sourceDir, 'fileadmin/ext/feusersmap/Resources/Public/');
-			$this->addFlashMessage('Directory ' . $iconPath . ' created for use with own mapIcons!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::INFO);
+			$this->addFlashMessage('Directory ' . $iconPath . ' created for use with own mapIcons!', '', \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::INFO);
         }
 
         $this->updateLatLon();
@@ -189,7 +200,7 @@ max 1 call/sec
 
         if(is_array($locations) && count($locations) == 0) {
 			$this->flashMessage('Feusersmap', 'No locations found in radius ' . $requestArguments['radius'] . ' km',
-					\TYPO3\CMS\Core\Messaging\FlashMessage::INFO);
+					\TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::INFO);
             $requestArguments['radius'] = $this->settings['searchRadius'];
     		$locations = $this->usersRepository->findLocationsInRadius($latLon, $requestArguments['radius'], $this->_GP['categories'], $this->conf['storagePid']);
 
@@ -260,7 +271,7 @@ max 1 call/sec
 
 	
 		if (!count($arr)) {
-			$this->addFlashMessage('No location categories found, please insert some first!', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
+			$this->addFlashMessage('No location categories found, please insert some first!', '', \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR);
 		} else {
 			$categories = $this->groupsRepository->buildTree($arr);
 		}
@@ -284,7 +295,7 @@ max 1 call/sec
 				'address' => $addresses[$i]['address'] . ' ' . $addresses[$i]['zip'] . ' ' . $addresses[$i]['city'],		
 				'country' => $addresses[$i]['country'],		
 			);
-			sleep(rand(1, 3)); // makes Google happy
+			sleep(rand(1, 3)); 
 
 			$latLon = $this->geocodeAction($theAddress);
 
@@ -293,11 +304,11 @@ max 1 call/sec
 				$address['Longitude'] = $latLon->lon;
 				$this->usersRepository->updateLatitudeLongitude($theAddress['uid'], $latLon->lat, $latLon->lon);
 				$this->flashMessage('Feusersmap geocoder', 'Geocoded ' .  ' ' . $addresses[$i]['first_name'] . ' ' . $addresses[$i]['name'] . ' ' .$theAddress['address'] . ' ' . $latLon->status,
-					\TYPO3\CMS\Core\Messaging\FlashMessage::INFO);
+					\TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::INFO);
 			}
 			else {
 				$this->flashMessage('Feusersmap geocoder', 'could not geocode ' . $addresses[$i]['first_name'] . ' ' . $addresses[$i]['name'] . ' ' . $latLon->status,
-					\TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
+					\TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR);
 				$this->usersRepository->setMapgeocode($theAddress['uid'], 0);
 			}
 				
@@ -402,16 +413,18 @@ max 1 call/sec
 	public function renderFluidTemplate($template, Array $assign = array()) {
       	$configuration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 
-		$templateRootPath = $this->configuration['view']['templateRootPaths'][1];
+		$templateRootPath = $this->configuration['view.']['templateRootPaths.'][1];
 
 		if (!$templateRootPath) 	
-		$templateRootPath = $this->configuration['view']['templateRootPath'][0];
+		$templateRootPath = $this->configuration['view.']['templateRootPath.'][0];
 		
 		$templatePath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($templateRootPath . 'Users/' . $template);
 		$view = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
 		$view->setTemplatePathAndFilename($templatePath);
 		$view->assignMultiple($assign);
         $view->setFormat('html');
+
+
 
         if ((new \TYPO3\CMS\Core\Information\Typo3Version())->getMajorVersion() > 11)
             $view->setRequest($this->request);
@@ -429,7 +442,7 @@ max 1 call/sec
 	 * 
 	 * @return void
 	 */
-	private function flashMessage($title, $message, $severity = \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING) {
+	private function flashMessage($title, $message, $severity = \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::WARNING) {
 		$this->addFlashMessage(
 			$message,
 			$title,

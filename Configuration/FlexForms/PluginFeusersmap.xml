@@ -11,35 +11,31 @@
 				<type>array</type>
 				<el>
 					<settings.showFilter>
-						<TCEforms>
-							<label>
-								LLL:EXT:feusersmap/Resources/Private/Language/locallang_db.xlf:tx_feusersmap.pi_flexform.showFilter
-							</label>
-							<config>
-								<type>check</type>
-								<default>1</default>
-							</config>
-						</TCEforms>
+                        <label>
+                            ShowFilter
+                        </label>
+                        <config>
+                            <type>check</type>
+                            <default>1</default>
+                        </config>
 					</settings.showFilter>
 					<settings.categories>
-						<TCEforms>
-							<label>
-								LLL:EXT:feusersmap/Resources/Private/Language/locallang_db.xlf:tx_feusersmap.pi_flexform.showCustomGroups
-							</label>
-							<config>
-								<type>group</type>
-								<internal_type>db</internal_type>
-								<allowed>fe_groups</allowed>
-								<size>4</size>
-								<maxitems>999</maxitems>
-								<minitems>1</minitems>
-								<show_thumbs>1</show_thumbs>
-							</config>
-						</TCEforms>
+                        <label>
+                            Show Custom Groups
+                        </label>
+                        <config>
+                            <type>group</type>
+                            <internal_type>db</internal_type>
+                            <allowed>fe_groups</allowed>
+                            <size>4</size>
+                            <maxitems>999</maxitems>
+                            <minitems>1</minitems>
+                            <show_thumbs>1</show_thumbs>
+                        </config>
 					</settings.categories>
 					<settings.singlePid>
 						<label>
-							LLL:EXT:feusersmap/Resources/Private/Language/locallang_db.xlf:tx_feusersmap.pi_flexform.singlePageUid
+							SinglePageUid
 						</label>
 						<config>
 							<type>group</type>
